@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>数衍增值税管理平台登录</title>
+
+    <!-- 页面基本设置禁止随意更改 -->
+    <meta charset="utf-8">
+    <meta name="author" content="forework">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+    <!--<meta http-equiv="Access-Control-Allow-Origin" content="*">-->
+    <!-- 页面基本设置禁止随意更改 -->
+    <!-- 基础CSS类库可随意更改 -->
+    <link rel="stylesheet" type="text/css" href="FrontFrame/less/css/less.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="FrontFrame/layui/css/layui.css">
+    <link rel="stylesheet" href="FrontFrame/FontAwesome/css/font-awesome.min.css"/>
+
+    <script src="FrontFrame/jQuery/jquery-1.11.1.min.js"></script>
+    <!--[if IE 9]>
+    <script src="FrontFrame/jQuery/jquery-1.11.1.min.js"></script>
+    <style>
+        .login-input{
+            width: 88%;
+            padding: 8px 0 8px 5px;
+            padding-left: 25px;
+        }
+    </style>
+    <![endif]-->
+
+    <!-- 为支持 ie8 需要使用低版本 jQuery 和 html5.min.js 和 respond.min.js -->
+    <!--[if IE 8]>
+    <script src="FrontFrame/jQuery/jquery-1.11.1.min.js"></script>
+    <![endif]-->
+    <!-- 由于 custom 主题不支持 ie6、ie7 故本系统不提供 ie6、ie7 的支持 -->
+
+    <!--[if IE 8]>
+    <style>
+        a.btn-Login, a.btn-register {
+            width: 235px;
+        }
+
+        .loginCenter-moudleRight A.moudle1.loginCenter-moudle1.loginCenter-mStyle {
+            padding-top: 0px;
+        }
+
+        .loginCenter-moudleRight A.moudle2.loginCenter-moudle2.loginCenter-mStyle {
+            padding-top: 0px;
+        }
+
+        .loginCenter-moudleRight A.moudle3.loginCenter-moudle3.loginCenter-mStyle {
+            padding: 0px;
+        }
+
+        .login-top-img {
+            margin-left: 60px;
+        }
+
+        .login-topStyle3 {
+            right: 120px;
+        }
+
+        .login-input {
+            width: 88%;
+            padding: 8px 0 8px 5px;
+            padding-left: 25px;
+        }
+        .loginCenter-moudleRight a.moudle1.loginCenter-moudle1.loginCenter-mStyle{ padding-top: 0px; }
+        .loginCenter-moudleRight a.moudle2.loginCenter-moudle2.loginCenter-mStyle{ padding-top: 0px; }
+        .loginCenter-moudleRight a.loginCenter-moudle3.loginCenter-mStyle span.moudle-text{ margin-top: 0px; }
+        .loginCenter-moudleRight a.moudle3.loginCenter-moudle3.loginCenter-mStyle{ padding-top: 0px; }
+        .loginCenter-moudleRight a.moudle3.loginCenter-moudle3.loginCenter-mStyle span.moudle-text{ top: -7px; }
+        a.btn-Login, a.btn-register { width: 235px; }
+
+    </style>
+    <![endif]-->
+</head>
+<body>
+<div class="wrapper">
+    <div class="login-top">
+        <div>
+            <div class="login-top-img"><img src="image/log_1.jpg" style="margin-top: 15px;"/></div>
+        </div>
+        <div class="login-topBg">
+            <div class="login-topStyle">
+                <div class="login-topStyle3" id="loginStyle" style="margin-top: 100px;">
+                    <h3>欢迎登录</h3>
+                    <div class="ui-form-item loginUsername" style="position: relative">
+                        <i class="fa fa-user fa-2x"
+                           style="position: absolute; margin-left: 5px; margin-top: 5px; color: #e1e1e1;"></i>
+                        <input id="input_username" type="text" placeholder="请输入用户名">
+                        <span class='msg-err-username' style='color: red'></span>
+                    </div>
+                    <div class="ui-form-item loginPassword" style="position: relative">
+                        <i class="fa fa-lock fa-2x"
+                           style="position: absolute; margin-left: 6px; margin-top: 7px; color: #e1e1e1;"></i>
+                        <input id="input_password" type="password" class = "text" placeholder="请输入密码">
+                        <span class='msg-err-password' style='color: red'></span>
+                    </div>
+                    <div>
+                        <a id="login" class="btnStyle btn-register">立即登录</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="loginCen" style="margin-top: 55px;">
+        <div class="login-center">
+            <div class="loginCenter-moudle">
+                <div class="loginCenter-moudleRight">
+                    <a class="loginCenter-mStyle loginCenter-moudle1" style="width: 380px;" id="moudleRemove">
+                        <span class="moudle-img"><img src="image/login_bg_01.png"></span>
+                        <span class="moudle-text" style="text-align: left;">
+                        <span class="moudle-text1">增值税发票全流程管理 </span>
+                        <span class="moudle-text2">Full VAT invoice management</span>
+                        </span>
+                    </a>
+                    <a class="loginCenter-mStyle loginCenter-moudle2" style="width: 380px;" id="moudleRemove2">
+                        <span class="moudle-img"><img src="image/login_bg_02.png"></span>
+                    <span class="moudle-text">
+                         <span class="moudle-text1">快速、低成本构建税企直连通道</span>
+                         <span class="moudle-text2">Fast and low cost tax channel construction</span>
+                    </span>
+                    </a>
+                    <a class="loginCenter-mStyle loginCenter-moudle3" style="width: 380px;" id="moudleRemove3">
+                        <span class="moudle-img"><img src="image/login_bg_03.png"></span>
+                        <span class="moudle-text">
+                        <span class="moudle-text1">企业税务风险监管数据分析平台</span>
+                        <span class="moudle-text2">VAT risk monitoring data analysis cloud</span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <span class="footerText">Copyright © 2017 gooagoo.com   服务热线:400-815-5058</span>
+    </div>
+</div>
+<script src="js/md5.js"></script>
+<script src="js/config.js"></script>
+<script src="FrontFrame/layui/layui.js"></script>
+<script src="js/config.js"></script>
+<script src="js/cookie.min.js"></script>
+<!--<script src="js/common.js"></script>-->
+<script src='js/commonInfo.js'></script>
+<script src="js/login.js"></script>
+<script>
+
+    var browser=navigator.appName;
+    var b_version=navigator.appVersion;
+
+    //	alert(browser+"------"+b_version);
+    // 判断当前浏览器是否支持placeholder属性
+    $(function () {
+        function isPlaceholder(){
+            var input = document.createElement('input');
+            return 'placeholder' in input;
+        }
+        if (!isPlaceholder()) {//不支持placeholder 用jquery来完成
+            $(document).ready(function() {
+                if(!isPlaceholder()){
+                    $("input").not("input[type='password']").each(//把input绑定事件 排除password框
+                            function(){
+                                if($(this).val()=="" && $(this).attr("placeholder")!=""){
+                                    $(this).val($(this).attr("placeholder"));
+                                    $(this).focus(function(){
+                                        if($(this).val()==$(this).attr("placeholder")) $(this).val("");
+                                    });
+                                    $(this).blur(function(){
+                                        if($(this).val()=="") $(this).val($(this).attr("placeholder"));
+                                    });
+                                }
+                            });
+                    //对password框的特殊处理1.创建一个text框 2获取焦点和失去焦点的时候切换
+                    $("input[type='password']").each(
+                            function() {
+                                var pwdField    = $(this);
+                                var pwdVal      = pwdField.attr('placeholder');
+                                pwdField.after('<input  class="login-input" type="text" value='+pwdVal+' autocomplete="off" />');
+                                var pwdPlaceholder = $(this).siblings('.login-input');
+                                pwdPlaceholder.show();
+                                pwdField.hide();
+
+                                pwdPlaceholder.focus(function(){
+                                    pwdPlaceholder.hide();
+                                    pwdField.show();
+                                    pwdField.focus();
+                                });
+
+                                pwdField.blur(function(){
+                                    if(pwdField.val() == '') {
+                                        pwdPlaceholder.show();
+                                        pwdField.hide();
+                                    }
+                                });
+                            })
+                }
+            });
+        }
+    });
+
+</script>
+
+</body>
+</html>

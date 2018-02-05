@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    <title>用户管理</title>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/ui.jqgrid.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/Bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/FontAwesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/jstree.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/Bootstrap/css/ace.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/custom/css/custom.min.css">
+    <!--<link rel="stylesheet" href="../../FrontFrame/departMentTree/css/zTreeStyle.css"/>-->
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" type="text/css" href="../../css/ie.css">
+    <![endif]-->
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="../../css/ie8.css">
+    <![endif]-->
+    <style type="text/css">
+        .layui-btn + .layui-btn {
+            margin: 0px
+        }
+        .user_icon{
+            /*display: inline-block;*/
+            cursor: pointer;
+            width: 19px;
+            height: 20px;
+            margin: 0 4px
+        }
+    </style>
+</head>
+<body class="nav-md" style="background-color: #F7F7F7!important">
+<div class="container body">
+    <div class="main_container">
+        <!-- 主页面page -->
+        <div class="right_col" style="margin-left:0px;padding:0px;">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel" style="padding-bottom:0px;margin-bottom:0px;">
+                        <div class="x_title page-header row" style="margin-top: 0;padding:0px;">
+                            <h2 style="width: 25%">
+                                <!--<span style="color:#2679b5;">系统设置</span>-->
+                                <!--<small style="margin-left:0px;"><i class="fa fa-angle-double-right"></i>用户管理</small>-->
+                                <ul class="panel_toolbox" style="font-size:18px;float:left;">
+                                    <!--<li>首页&nbsp;<i class="fa fa-angle-double-right"></i></li>-->
+                                    <li>&nbsp;系统设置&nbsp;<i class="fa fa-angle-double-right"></i>&nbsp;</li>
+                                    <li>用户管理
+                                    </li>
+                                </ul>
+                            </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <!--<li id="yhgl_btn">-->
+                                <li id="LAY_demo">
+                                    <button data-method="yhgl_query" class="layui-btn layui-btn-small"
+                                            style="margin-bottom: 0;margin-right: 0" btnCode = '102020'>
+                                        <i class="fa fa-search"></i>&nbsp;<big>查询</big>
+                                    </button>
+                                    <button data-method="yhgl_add" class="layui-btn layui-btn-small layui-btn-normal"
+                                            style="margin-left: 0" btnCode = '102010'>
+                                        <i class="fa fa-plus"></i>&nbsp;<big>新增</big>
+                                    </button>
+                                    <!--<button id="yhgl_modify" data-method="yhgl_modify"-->
+                                            <!--class="layui-btn layui-btn-small layui-btn-warm btn-ev" style="margin-left: 0">-->
+                                        <!--<i class="layui-icon">&#xe642;</i>&nbsp;<big>编辑</big>-->
+                                    <!--</button>-->
+                                    <button id="yhgl_delete" data-method="yhgl_delete" type='batch'
+                                            class="layui-btn layui-btn-small layui-btn-danger" style="margin-left: 0" btnCode = '102040'>
+                                        <i class="fa fa-trash"></i>&nbsp;<big>删除</big>
+                                    </button>
+                                    <button id="reset_password" data-method="reset_password"
+                                            class="layui-btn layui-btn-small layui-btn-warm" style="margin-left: 0" btnCode = '102080'>
+                                        <i class="ace-icon fa fa-undo bigger-110"></i>&nbsp;<big>重置密码</big>
+                                    </button>
+                                    <!--<button id="add_Jg" data-method="add_Jg" class="layui-btn layui-btn-small layui-btn-warm" style="margin-left: 0">-->
+                                    <!--<i class="ace-icon fa fa-key bigger-110"></i>&nbsp;<big>配置机构</big>-->
+                                    <!--</button>-->
+                                    <!--<button id="yhgl_check" data-method="yhgl_check"-->
+                                            <!--class="layui-btn btn-ev layui-btn-small layui-btn-normal btn-evbtn-ev" style="margin-left: 0">-->
+                                        <!--<i class="layui-icon">&#xe62e;</i>&nbsp;<big>查看</big>-->
+                                    <!--</button>-->
+                                    <button id="yhgl_locking" data-method="yhgl_locking" type='batch'
+                                            class="layui-btn layui-btn-small layui-btn-normal btn-ev" style="margin-left: 0" btnCode = '102060'>
+                                        <i class="fa fa-lock" style="font-size: 14px;"></i>&nbsp;<big>锁定</big>
+                                    </button>
+                                    <button id="yhgl_unlock" data-method="yhgl_unlock" type='batch'
+                                            class="layui-btn layui-btn-small layui-btn-normal btn-ev" style="margin-left: 0" btnCode = '102070'>
+                                        <i class="fa fa-unlock"></i>&nbsp;<big>解锁</big>
+                                    </button>
+
+                                </li>
+                                <li>&nbsp;</li>
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                <li><a class="close-link" onclick="closeCurrentPage()"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content" style="padding-bottom:0px;">
+                            <div class="page-content" style="white-space:nowrap;padding-left:0px;padding-bottom:0px;">
+                                <form class="form-horizontal" autocomplete="off">
+                                    <div class="space-4"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>组织机构 </small>
+                                        </label>
+                                        <div class="col-sm-2 search_user" data-method="search">
+                                            <input type="text" id="organName1" name="organName" style="" value=''
+                                                   class="form-control col-sm-12 organName"
+                                                   onfocus="getOrgTree('searchTree_init','search_user','','')"
+                                                   onblur="hideTree('searchTree_init')" onMouseOver='doSet("search_user")'>
+                                            <input type="hidden" id="organId1" name="organId" value="" class="organId"/>
+                                            <div class="searchTree_init user_init col-sm-12" style="">
+
+                                            </div>
+
+                                        </div>
+
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>登录账号 </small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <input type="text" id="txt_yhid" class="form-control col-sm-12"/>
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>锁定标记 </small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <select class="form-control col-sm-12" id="select_sdbj">
+                                                <option value="">全部</option>
+                                                <option value="1">已锁定</option>
+                                                <option value="0">未锁定</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="page-content-area col-xs-12 scroll yhgl-cont"
+                                     style="margin-right:-15px;margin-left:-30px;">
+                                    <table id="yhgl_gridtable"></table>
+                                    <div id="yhgl_pager"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 主页面page -->
+    </div>
+</div>
+
+<!-- 新增-修改-查看界面page -->
+<div id="yhgl_userPage" style="display:none;">
+    <!--<table border="0" cellspacing="6px;" cellpadding="0" style="margin:10px;">-->
+    <!--<tr>-->
+    <form id="checkForm" class="form-horizontal" role="form" autocomplete="off">
+        <!--<td>-->
+        <div class="space-4"></div>
+        <div id="add_modify_tree " class="form-group hide_jgqx">
+            <label class="col-sm-2 control-label no-padding-right" style="font-size:17px;">
+                <font color="red">* </font>
+                <small>组织机构</small>
+            </label>
+            <div class="col-sm-3 add_user">
+                <input type="text" id="organName" name="organName" style="" class="form-control col-sm-12 organName" value=""
+                onfocus="getOrgTree('yhTree-init','add_user','yhgl_userPage','taxNo')"
+                onblur="hideTree('yhTree-init')"
+                onkeyup="clearOrg('add_user','yhgl_userPage','yhFlag')" >
+                <input type="hidden" id="organId" name="organId" class="organId" value=""/>
+                <input type="hidden" id="mparentTaxNo" name="mparentTaxNo" class="mparentTaxNo" value=""/>
+                <div class="yhTree-init col-sm-12" style="">
+
+                </div>
+            </div>
+            <!--<div id="BmDiv1" style="display:none;position:absolute;" class="col-sm-3">-->
+            <!--<ul id="BmTree1" class="ztree"></ul>-->
+            <!--</div>-->
+
+            <label class="col-sm-3 control-label no-padding-right" style="font-size:17px;">
+                <font color="red">* </font>
+                <small>数据权限</small>
+            </label>
+            <div class="col-sm-3">
+                <select style="width: 200px" class="form-control col-sm-12 user_mdeptName" id="mdeptName">
+                    <option value="1" selected>本级及下级机构</option>
+                    <option value="0">本级机构</option>
+                    <option value="2">开票点</option>
+                    <option value='' style='display: none'></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="space-4"></div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label no-padding-right" style="font-size:17px;"><font color="red">* </font>
+                <small>登录账号</small>
+            </label>
+            <!--<span style="color:red;font-size:15px;">(必填项)</span>-->
+            <div class="col-sm-3">
+                <input style="" type="text" id="yhgl_login" value="" class="form-control col-sm-12" autocomplete="false"/>
+            </div>
+
+            <label class="col-sm-3 control-label no-padding-right" style="font-size:17px;">
+                <font color="red">* </font>
+                <small>用户名称</small>
+            </label>
+            <!--<span style="color:red;font-size:15px;">(必填项)</span>-->
+            <div class="col-sm-3">
+                <div style="width: 200px">
+                    <input style="width: 100px;float: left;height: 36px" type="text" id="yhgl_realname"/>
+                    <select id="yh_sex" style="width: 98px;float: left;height: 36px">
+                        <option value="0">男</option>
+                        <option value="1">女</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="space-4"></div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label no-padding-right" style="font-size: 17px">
+                <small>邮箱</small>
+            </label>
+            <div class="col-sm-3">
+                <input type="text" id="yh_email" name="mdeptCode" class="form-control col-sm-12"
+                       aisinoCheck="{required:true,minlength:1,maxlength:50}" autocomplete="false"/>
+                <!--<input type="hidden" id="yh_emailyc" name="bmjcForSave" value=""/>-->
+            </div>
+            <label class="col-sm-3 control-label no-padding-right" style="font-size:17px;">
+                <small>手机号码</small>
+            </label>
+            <div class="col-sm-3">
+                <input type="text" id="yh_phone" name="mdeptName" style="width: 200px" class="form-control col-sm-12"
+                       aisinoCheck="{required:true,minlength:1,maxlength:100}" autocomplete="false"/>
+            </div>
+        </div>
+        <div class="space-4"></div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label no-padding-right" style="font-size: 17px">
+                <small>锁定标志</small>
+            </label>
+            <div class="col-sm-3">
+                <input type="text" id="yh_sd" name="mdeptCode" class="form-control col-sm-12"
+                       aisinoCheck="{required:true,minlength:1,maxlength:50}"/>
+                <input type="hidden" id="yc_sdyc" name="bmjcForSave" value=""/>
+            </div>
+            <label class="col-sm-3 control-label no-padding-right" style="font-size:17px;">
+                <small>用户属性</small>
+            </label>
+
+            <div class="col-sm-3">
+                <select style="width: 200px;height: 38px" id="yh_sx">
+                    <!--<option value=" " style="display: none"> </option>-->
+                    <option value="0">超级管理员</option>
+                    <option value="1">集团管理员</option>
+                    <option value="2" selected>普通用户</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="space-4"></div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label no-padding-right" style="font-size: 17px">
+                <small>账号有效期</small>
+            </label>
+            <div class="col-sm-3 layui-input-inline">
+                <!--<input type="hidden" id="yh_zhyxq" name="mdeptCode" class="form-control col-sm-12 layui-input" placeholder="yyyy-MM-dd"-->
+                       <!--aisinoCheck="{required:true,minlength:1,maxlength:50}"/>-->
+                <!--<input type="hidden" id="yc_email" name="bmjcForSave" value="" />-->
+                <!--<div class="layui-input-inline">-->
+                    <input type="text" class="layui-input col-sm-12" id="yh_zhyxq" placeholder="yyyy-MM-dd" autocomplete="false">
+                <!--</div>-->
+            </div>
+
+            <label class="col-sm-3 control-label no-padding-right yhgl_kpdName" style="font-size:17px;">
+                <small>开票点绑定</small>
+            </label>
+            <div class="col-sm-3 yhgl_kpd">
+                <select id="yhgl_kpd" class="form-control col-sm-12" style="width:200px;">
+
+                </select>
+
+            </div>
+        </div>
+        <div class="space-4"></div>
+        <div class="form-group user_password">
+            <label class="col-sm-2 control-label no-padding-right" style="font-size: 17px">
+                <small>用户密码</small>
+            </label>
+            <div class="col-sm-3">
+                <input type="text" id="yh_password" name="mdeptName" style="" class="form-control col-sm-12"
+                       value="123456" autocomplete="false" readonly/>
+                <!--<div id="show" style="color: darkred">默认密码为123456</div>-->
+            </div>
+
+            <label class="col-sm-3 control-label no-padding-right">
+                <small></small>
+            </label>
+            <div class="col-sm-3">
+                <input type="text" name="mdeptName" class="form-control col-sm-12" style="display: none"/>
+            </div>
+        </div>
+        <div class="space-4"></div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label no-padding-right" style="font-size: 17px">
+                <small>全部角色</small>
+            </label>
+            <div class="col-sm-3">
+                <select multiple="multiple" id="all_roles" style="overflow-y:auto;height:180px;background-color:#fff;vertical-align:top;
+                  width:170px;border:#dddddd solid 1px;">
+                </select>
+            </div>
+            <!--</td>-->
+            <!--<td style="width:35px;padding-left:5px;">-->
+            <div class="col-sm-1">
+                <button style="background-color:transparent;width:35px;margin-top:30px;display: block"
+                        id="btn_add_role">
+                    <i class="fa fa-angle-right"></i>
+                </button>
+                <button style="background-color:transparent;width:35px;margin-top:10px;display: block"
+                        id="btn_add_all_role">
+                    <i class="fa fa-angle-double-right"></i>
+                </button>
+                <button style="background-color:transparent;width:35px;margin-top:10px;display: block"
+                        id="btn_remove_role">
+                    <i class="fa fa-angle-left"></i>
+                </button>
+                <button style="background-color:transparent;width:35px;margin-top:10px;display: block"
+                        id="btn_remove_all_role">
+                    <i class="fa fa-angle-double-left"></i>
+                </button>
+            </div>
+            <!--</td>-->
+            <!--<td style="padding-left:5px">-->
+            <label style="font-size:17px;" class="col-sm-2 control-label no-padding-right">
+                <font color="red">* </font><small>已选角色</small>
+            </label>
+            <div class="col-sm-3">
+                <select multiple="multiple" id="select_roles" style="overflow-y:auto;height:180px;background-color:#fff;vertical-align:top;
+                  width:200px;border:#dddddd solid 1px;">
+                </select>
+            </div>
+        </div>
+        <div class="space-4"></div>
+        <!--</td>-->
+        <div class="form-group">
+            <label class="col-sm-2 control-label no-padding-right" style="font-size: 17px">
+                <small>账号描述</small>
+            </label>
+            <div class="col-sm-3">
+			        	<textarea name="dialogDescription" id="yh_dialogDescription" class="user-input"
+                                  style="border:#dddddd solid 1px;width:170px; overflow-y:auto; height:120px;"></textarea>
+            </div>
+        </div>
+
+        <div class="space-4"></div>
+    </form>
+    <!--</tr>-->
+    <!--</table>-->
+</div>
+<!-- 新增-修改-查看界面page -->
+
+<script src="../../FrontFrame/jQuery/jquery-1.11.1.min.js"></script>
+<!--[if lte IE 9]>
+<script src="../../FrontFrame/jQuery/jquery-1.11.1.min.js"></script>
+<script src="../../js/upload/jquery.placeholder.min.js"></script>
+<![endif]-->
+
+<!-- bootStrap&jqGrid&jQueryUi -->
+<script src="../../FrontFrame/jQuery/jquery-ui.js"></script>
+<script src="../../FrontFrame/Bootstrap/js/bootstrap.js"></script>
+<script src="../../FrontFrame/jQuery/jquery.jqGrid.src.js"></script>
+<script src="../../FrontFrame/jQuery/grid.locale-cn.js"></script>
+<!-- bootStrap&jqGrid -->
+<script src="../../FrontFrame/layui/layui.js"></script>
+<script src="../../FrontFrame/custom/js/custom.min.js"></script>
+<script src="../../js/kpglMx.js"></script>
+<script src="../../js/md5.js"></script>
+<script src="../../js/tools.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/cookie.min.js"></script>
+<script src="../../FrontFrame/jQuery/jstree.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../pages/admin/js/user_manager.js"></script>
+<script src="../../js/commonInfo.js"></script>
+<script src="../../FrontFrame/jQuery/jquery.placeholder.js"></script>
+<!--<script src="../../FrontFrame/departMentTree/departmentTree.js"></script>-->
+<!--<script src="../../FrontFrame/departMentTree/jquery.ztree.all-3.5.js"></script>-->
+<script>
+    $("#organName1").keydown(function (event) {
+        if(event.keyCode == 8){
+            $("#organName1").blur();
+        }
+
+
+    });
+
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#yh_zhyxq'
+        });
+    })
+</script>
+</body>
+</html>

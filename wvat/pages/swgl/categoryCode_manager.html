@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>税收分类编码</title>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/ui.jqgrid.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/Bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/FontAwesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/jstree.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/Bootstrap/css/ace.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/custom/css/custom.min.css">
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/departMentTree/css/zTreeStyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" type="text/css" href="../../css/ie.css">
+    <![endif]-->
+
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="../../css/ie8.css">
+    <![endif]-->
+    <style type="text/css">
+        .layui-btn + .layui-btn {
+            margin: 0px
+        }
+
+        #pathShopEntity {
+            border: none;
+            border-bottom: 1px solid #e3e3e3;
+            background: #fff !important;
+        }
+        .file-button{
+            border-bottom-right-radius: 2px;
+            border-top-right-radius: 2px;
+            float: none;
+            height: 32px;
+            line-height: 32px;
+            padding: 0 16px;
+            position: absolute;
+            right: 1px;
+            top: 2px;
+            z-index: 10;
+        }
+        .text-center > a{
+            color: #0097a7;
+            text-decoration: underline
+        }
+        .text-center > a:hover{
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body class="nav-md" style="background-color: #F7F7F7!important">
+<div class="container body">
+    <div class="main_container">
+        <!-- 主页面page -->
+        <div class="right_col" style="margin-left:0px;padding:0px;">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel" style="padding-bottom:0px;margin-bottom:0px;">
+                        <div class="x_title page-header row" style="padding:0px;margin-top: 0;">
+                            <h2 style="width: 25%">
+                                <ul class="panel_toolbox" style="font-size:18px;float:left;">
+			                        <li>&nbsp;税务信息管理&nbsp;<i class="fa fa-angle-double-right"></i>&nbsp;</li>
+			                        <li>税收分类编码</li>
+                                </ul>
+                            </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li id="LAY_demo">
+                                	<button data-method="btn_query" id="btn_query" class="layui-btn layui-btn-small" style="margin:0px" btnCode="203010">
+						                <i class="fa fa-search" style="vertical-align: middle;"></i>&nbsp;&nbsp;查询
+						            </button>
+                                    <button data-method="bill_upload" id="btn_upload"
+                                            class="layui-btn layui-btn-small layui-btn-normal" style="margin:0px"
+                                            btnCode='203020'>
+                                        <i class="fa fa-upload" style="vertical-align: middle;"></i>&nbsp;&nbsp;导入
+                                    </button>
+                                </li>
+                                <li>&nbsp;</li>
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                <li><a class="close-link" onclick="closeCurrentPage()"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content" style="padding-bottom:0px;">
+                            <div class="page-content" style="white-space:nowrap;padding-left:0px;padding-bottom:0px;">
+                                <form class="form-horizontal" id="searchForm">
+                                    <div class="space-4"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label no-padding-right">
+	                            			<small>合并编号 </small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <input type="text" placeholder="" id="mergeCode" class="form-control col-sm-12"/>
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>货物名称</small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <input type="text" id="name" class="form-control col-sm-12"/>
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>税率：</small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <select id="taxRate" class="form-control col-sm-12">
+				                                <option value="">全部</option>
+				                                <option value="0.00">0%</option>
+				                                <option value="0.03">3%</option>
+				                                <option value="0.05">5%</option>
+				                                <option value="0.06">6%</option>
+				                                <option value="0.11">11%</option>
+				                                <option value="0.13">13%</option>
+				                                <option value="0.17">17%</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>是否汇总项</small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <select id="isSumItem" class="form-control col-sm-12">
+				                                <option value="">全部</option>
+				                                <option value="Y">是</option>
+				                                <option value="N">否</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="page-content-area col-xs-12 scroll "
+                                     style="margin-right:-15px;margin-left:-30px;" id="ssfl_queryGrid">
+                                    <table id="ssfl_gridtable"></table>
+                                    <div id="ssfl_pager"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 主页面page -->
+    </div>
+</div>
+<!--导入-->
+<div class="page-content-area col-xs-12 scroll" id='categoryCode_upload' style="display: none;">
+    <div class="modal-body">
+        <div class="form-group col-md-12">
+            <label class="control-label">请选择导入文件</label>
+            <div class="file">
+                <div class="option-group" style="position: relative;margin-top: 1rem">
+                    <div class="file-button btn-primary pointer" ngf-select="" ng-model="fileShopEntity" onchange="document.getElementById('pathShopEntity').value = this.value;document.getElementById('importEntityError').innerHTML='';">浏览</div>
+                    <input type="text" class="form-control" id="pathShopEntity" placeholder="未选择文件" readonly="readonly">
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-12" style="margin-top: 1rem">
+            <div class="col-sm-12 text-center">
+                <a href="../../js/upload/taxCategoryCode-model.xlsx">点击下载导入模板</a>
+            </div>
+        </div>
+        <div class="form-group col-md-12 ng-scope" style="word-break:break-all;max-height:100px;overflow:auto;" id="importEntityError"></div><!-- end ngIf: !importEntitySuccess -->
+    </div>
+</div>
+
+<!--<script src="../../FrontFrame/jQuery/jquery.min.js"></script>-->
+<script src="../../FrontFrame/jQuery/jquery-1.11.1.min.js"></script>
+<!--[if IE 8]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../../FrontFrame/jQuery/jquery-1.11.1.min.js'>" + "<" + "/script>");
+</script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+<script src="../../js/upload/jquery.placeholder.min.js"></script>
+<![endif]-->
+
+<!-- bootStrap&jqGrid&jQueryUi -->
+<script src="../../FrontFrame/jQuery/jquery-ui.js"></script>
+<script src="../../FrontFrame/Bootstrap/js/bootstrap.js"></script>
+<script src="../../FrontFrame/jQuery/jquery.jqGrid.src.js"></script>
+<script src="../../FrontFrame/jQuery/grid.locale-cn.js"></script>
+<!-- bootStrap&jqGrid -->
+<script src="../../FrontFrame/layui/layui.js"></script>
+<script src="../../FrontFrame/custom/js/custom.min.js"></script>
+
+<script src="../../js/cookie.min.js"></script>
+<script src="../../js/tools.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../pages/swgl/js/categoryCode_manager.js"></script>
+<!-- Aisino表单校验 -->
+<!-- <script src="../../FrontFrame/formValidate/jquery.validate.js"></script> -->
+<!-- <script src = "../../FrontFrame/formValidate/jquery.metadata.js"></script> -->
+<!-- <script src="../../FrontFrame/formValidate/messages_cn.js"></script> -->
+<!-- <script src="../../FrontFrame/formValidate/aisino.check.js"></script> -->
+<!-- Aisino表单校验 -->
+<!--<script src="../../js/bmTree.js"></script> -->
+<!-- <script src="../../FrontFrame/jQuery/jquery.ztree.all-3.5.js"></script> -->
+<!-- <script src="../../FrontFrame/jQuery/jstree.js"></script> -->
+<!-- <script src="../../FrontFrame/jQuery/jquery.placeholder.js"></script> -->
+<script src="../../js/commonInfo.js"></script>
+<script>
+//    function importXLS(fileName)
+//    {
+//        objCon = new ActiveXObject("ADODB.Connection");
+//        objCon.Provider = "Microsoft.Jet.OLEDB.4.0";
+//        objCon.ConnectionString = "Data Source=" + fileName + ";Extended Properties=Excel 8.0;";
+//        objCon.CursorLocation = 1;
+//        objCon.Open;
+//        var strQuery;
+//        //Get the SheetName
+//        var strSheetName = "Sheet1$";
+//        var rsTemp =   new ActiveXObject("ADODB.Recordset");
+//        rsTemp = objCon.OpenSchema(20);
+//        if(!rsTemp.EOF)
+//            strSheetName = rsTemp.Fields("Table_Name").Value;
+//        rsTemp = null;
+//        rsExcel =   new ActiveXObject("ADODB.Recordset");
+//        strQuery = "SELECT * FROM [" + strSheetName + "]";
+//        rsExcel.ActiveConnection = objCon;
+//        rsExcel.Open(strQuery);
+//        while(!rsExcel.EOF)
+//        {
+//            for(i = 0;i<rsExcel.Fields.Count;++i)
+//            {
+//                alert(rsExcel.Fields(i).value);
+//            }
+//            rsExcel.MoveNext;
+//        }
+//        // Close the connection and dispose the file
+//        objCon.Close;
+//        objCon =null;
+//        rsExcel = null;
+//    }
+</script>
+</body>
+</html>

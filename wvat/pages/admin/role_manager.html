@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+    <title>角色管理</title>
+
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/ui.jqgrid.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/Bootstrap/css/bootstrap.min.css"/>
+    <!--<link rel="stylesheet" href="../../css/style.css"/>-->
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/FontAwesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/jstree.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/Bootstrap/css/ace.min.css"/>
+
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/layui/css/layui.css">
+    <!-- Custom Theme Style  -->
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/custom/css/custom.min.css">
+    <!--<link rel="stylesheet" href="../../css/zTreeStyle.css"/>-->
+
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" type="text/css" href="../../css/ie.css">
+    <![endif]-->
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="../../css/ie8.css">
+    <![endif]-->
+    <style type="text/css">
+        .layui-btn + .layui-btn {
+            margin-left: 0px
+        }
+        input[type=text]{
+            height: 30px;
+        }
+    </style>
+</head>
+<body class="nav-md" style="background-color: #F7F7F7!important">
+<div class="container body">
+    <div class="main_container">
+        <!-- 主页面page -->
+        <div class="right_col" style="margin-left:0px;padding:0px;">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel" style="padding-bottom:0px;margin-bottom:0px;">
+                        <div class="x_title page-header row" style="padding:0px;margin-top: 0;">
+                            <h2 style="width: 25%">
+                                <!--<span style="color:#2679b5;">系统设置</span>-->
+                                <!--<small style="margin-left:0px;"><i class="fa fa-angle-double-right"></i>用户管理</small>-->
+                                <ul class="panel_toolbox" style="font-size:18px;float:left;">
+                                    <!--<li>首页&nbsp;<i class="fa fa-angle-double-right"></i></li>-->
+                                    <li>&nbsp;系统设置&nbsp;<i class="fa fa-angle-double-right"></i>&nbsp;</li>
+                                    <li>角色管理
+                                    </li>
+                                </ul>
+                            </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <!--<li id="yhgl_btn">-->
+                                <li id="LAY_demo">
+                                    <button data-method="btn_query" id="btn_query" class="layui-btn layui-btn-small"
+                                            style="margin:0px" btnCode = '103020'>
+                                        <i class="fa fa-search"></i>&nbsp;查询
+                                    </button>
+                                    <!--<button data-method="btn_look" id="btn_look" class="layui-btn layui-btn-small" style="margin:0px"> -->
+                                    <!--<i class="layui-icon">&#xe615;</i>&nbsp;查看-->
+                                    <!--</button>-->
+                                    <button data-method="btn_add" is="btn_add" class="layui-btn layui-btn-small layui-btn-normal"
+                                            style="margin:0px" btnCode = '103010'>
+                                        <i class="fa fa-plus"></i>&nbsp;新增
+                                    </button>
+                                    <!--<button data-method="btn_edit" id="btn_edit"-->
+                                    <!--class="layui-btn layui-btn-small layui-btn-warm btn-ev"-->
+                                    <!--style="margin:0px">-->
+                                    <!--<i class="layui-icon">&#xe642;</i>&nbsp;编辑-->
+                                    <!--</button>-->
+                                    <button data-method="btn_delete" is="btn_delete"
+                                            class="layui-btn layui-btn-small layui-btn-danger btn-ev" type='batch' style="margin:0px" btnCode = '103040'>
+                                        <i class="fa fa-trash"></i>&nbsp;删除
+                                    </button>
+                                    <!--<button data-method="btn_look" id="btn_look"-->
+                                    <!--class="layui-btn layui-btn-small layui-btn-ck btn-ev"-->
+                                    <!--style="margin:0px">-->
+                                    <!--<i class="layui-icon">&#xe615;</i>&nbsp;查看-->
+                                    <!--</button>-->
+                                </li>
+                                <li>&nbsp;</li>
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                <li><a class="close-link" onclick="closeCurrentPage()"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content" style="padding-bottom:0px;">
+                            <div class="page-content" style="white-space:nowrap;padding-left:0px;padding-bottom:0px;">
+                                <form class="form-horizontal">
+                                    <div class="space-4"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>组织机构 </small>
+                                        </label>
+                                        <div class="col-sm-2 search_role" data-method="search">
+                                            <input type="text" id="organName" name="organName" style="" value=''
+                                                   class="form-control col-sm-12 organName"
+                                                   onfocus="getOrgTree('roleTree_init','search_role','','')"
+                                                   onblur="hideTree('roleTree_init','search_role')" onMouseOver='doSet("search_role")'>
+                                            <input type="hidden" id="organId" name="organId" value="" class="organId"/>
+                                            <div class="roleTree_init col-sm-12" style="">
+
+                                            </div>
+
+                                        </div>
+
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>角色名称 </small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <input type="text" id="jsmc" class="form-control col-sm-12"/>
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>角色属性 </small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <select class="form-control col-sm-12" id="js_wzlx">
+                                                <option value="">全部</option>
+                                                <option value="0">系统角色</option>
+                                                <option value="1">机构角色</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="page-content-area col-xs-12 scroll role-cont" id="wwdz_queryGrid"
+                                     style="margin-right:-15px;margin-left:-30px;">
+                                    <table id="wwdz_gridtable"></table>
+                                    <div id="wwdz_pager"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 主页面page -->
+    </div>
+</div>
+
+<!-- 新增-修改-查看界面page -->
+<div id="xz_wwdz" style="display:none;">
+    <!--<table border="0" cellspacing="6px;" cellpadding="0" style="margin:10px;">-->
+    <!--<tr>-->
+    <form id="xz_wwdz_form" class="form-horizontal" style="padding:8px 20px;height:320px;" role="form" autocomplete="off">
+        <!--<td>-->
+        <table border="0" align="left" cellspacing="2px;" cellpadding="0">
+            <tr>
+                <td style="padding-top: 10px">
+                    <div class="form-group">
+                        <label for="dialogRoleName" class="text-font user-lable col-sm-4" style="">
+                            <font color="red">*</font>
+                            <small>角色名称</small>
+                            <!--<span style="color:red;font-size:15px;">(必填项)</span>-->
+                        </label>
+                        <div class="col-md-6" style="">
+                            <input type="text" id="dialogRoleName" name="dialogRoleName" style="width:220px;font-size: 14px;height: 33px"
+                                   class="text ui-widget-content user-input" placeholder="请输入长度为4~50位角色名称"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-top: 10px">
+                    <div class="form-group">
+                        <label for="dialogRoleName" class="text-font user-lable col-sm-4"
+                               style=""> <font color="red">*</font>
+                            <small>角色状态</small>
+                        </label>
+                        <div id="jszt" class="checkbox col-md-6" style="color:red;font-size:15px;width:220px !important;"
+                             name="jszt">
+
+                            <label style="float: left;color: #000"><input type="checkbox" value="1" style="" checked>&nbsp;&nbsp;启用</label>
+                            <label style="float: left;margin-left: 5rem;color: #000"><input type="checkbox" value="0" style="">&nbsp;&nbsp;禁用</label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <!--</table>-->
+            <!--<table>-->
+            <tr>
+                <td style="padding-top: 10px">
+                    <label for="dialogRoleName" class="text-font user-lable col-sm-4" style="">
+                        <font>&nbsp;</font>
+                        <small>角色属性</small>
+                    </label>
+                    <!--<input type="text" id="jssx" disabled="disabled"style="width:220px;"/>-->
+                    <!--<input type="hidden" id="jssx_id">-->
+                    <div class="col-md-6" style="font-size:15px;width:220px;">
+                    <select id="jssx" style="color:#000;font-size:15px;width:220px!important;height: 33px" name="jssx">
+                        <option value="0">系统角色</option>
+                        <option value="1" selected>机构角色</option>
+                    </select>
+                    </div>
+                </td>
+            </tr>
+            <tr id="role_jg">
+                <td style="padding-top: 10px">
+                    <label for="dialogRoleName" class="text-font user-lable col-sm-4" style="">
+                        <font color="red">*</font>
+                        <small>组织机构 </small>
+                    </label>
+                    <div class="col-sm-3 add_role" style="position: relative;">
+                        <input type="text" id="bmmc" name="bmmc" style="width:220px;" class="organName" aisinoCheck="{required:false,minlength:1,maxlength:200}"
+                               onfocus="getOrgTree('zzjgTree-init','add_role')"
+                               onblur="hideTree('zzjgTree-init')"
+                               onkeyup="clearOrg('add_role')"/>
+                        <input type="hidden" id="bmmc_id" name="bmmc_id" value="" class="organId"/>
+                        <div class="zzjgTree-init" style="width:220px;">
+
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-top: 10px" >
+                    <div class="form-group">
+                        <label for="dialogDescription" class="text-font user-lable col-sm-4"
+                               style="">
+                            <font>&nbsp;</font>
+                            <small>角色描述 </small>
+                        </label>
+                        <div class="col-md-6">
+			        	<textarea name="dialogDescription" id="dialogDescription" class="user-input"
+                                  style="border:#dddddd solid 1px;width:220px; overflow-y:auto; height:250px;">
+			        	</textarea>
+                        </div>
+                    </div>
+                </td>
+        </table>
+        <table>
+            <tr>
+                <td style="padding-left:8em ;padding-top: 10px" align="left">
+                    <label for="dialogMenuTree" class="text-font user-lable" style="width:200px">
+                        <font color="red">*</font>
+                        <small>角色权限</small>
+                        <!--<span style="color:red;font-size:15px;">(必填项)</span>-->
+                    </label>
+                    <div class="user-input"style="overflow-y:auto;height:265px;margin-top: 10px;background-color:#fff;vertical-align:top;border:#dddddd solid 1px;">
+                        <ul id="dialogMenuTree" name="dialogMenuTree">
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            </tr>
+        </table>
+    </form>
+    <!--</tr>-->
+    <!--</table>-->
+</div>
+<!-- 新增-修改-查看界面page -->
+
+<!--<script src="../../FrontFrame/jQuery/jquery.min.js"></script>-->
+<script src="../../FrontFrame/jQuery/jquery-1.11.1.min.js"></script>
+<!--[if IE 8]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../../FrontFrame/jQuery/jquery-1.11.1.min.js'>" + "<" + "/script>");
+</script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+<script src="../../js/upload/jquery.placeholder.min.js"></script>
+<![endif]-->
+
+<!-- bootStrap&jqGrid&jQueryUi -->
+<script src="../../FrontFrame/jQuery/jquery-ui.js"></script>
+<script src="../../FrontFrame/Bootstrap/js/bootstrap.js"></script>
+<script src="../../FrontFrame/jQuery/jquery.jqGrid.src.js"></script>
+<script src="../../FrontFrame/jQuery/grid.locale-cn.js"></script>
+<!-- bootStrap&jqGrid -->
+
+<script src="../../FrontFrame/layui/layui.js"></script>
+<script src="../../FrontFrame/custom/js/custom.min.js"></script>
+<script src="../../js/tools.js"></script>
+<script src="../../js/cookie.min.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../pages/admin/js/role_manager.js"></script>
+<!-- Aisino表单校验 -->
+<script src="../../FrontFrame/formValidate/jquery.validate.js"></script>
+<script src = "../../FrontFrame/formValidate/jquery.metadata.js"></script>
+<script src="../../FrontFrame/formValidate/messages_cn.js"></script>
+<script src="../../FrontFrame/formValidate/aisino.check.js"></script>
+<!-- Aisino表单校验 -->
+<!--<script src="../../js/bmTree.js"></script>-->
+<!--<script src="../../FrontFrame/jQuery/jquery.ztree.all-3.5.js"></script>-->
+<script src="../../FrontFrame/jQuery/jstree.js"></script>
+<script src="../../FrontFrame/jQuery/jquery.placeholder.js"></script>
+<script src="../../js/commonInfo.js"></script>
+<script>
+    $(".search_role #organName").keydown(function (event) {
+        if(event.keyCode == 8){
+            $(".search_role #organName").blur();
+        }
+    });
+</script>
+</body>
+</html>

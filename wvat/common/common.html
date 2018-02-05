@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>账单查询</title>
+    <link rel="stylesheet" href="../FrontFrame/jQuery/css/jquery-ui.css"/>
+    <link rel="stylesheet" href="../FrontFrame/jQuery/css/ui.jqgrid.css"/>
+    <link rel="stylesheet" href="../FrontFrame/Bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../FrontFrame/FontAwesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../FrontFrame/jQuery/css/jstree.css"/>
+    <![if !IE]>
+    <link rel="stylesheet" href="../FrontFrame/Bootstrap/css/ace.min.css"/>
+    <![endif]>
+    <link rel="stylesheet" href="../FrontFrame/layui/css/layui.css">
+    <link rel="stylesheet" href="../FrontFrame/custom/css/custom.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../pages/sales/css/sale_manager.css">
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="../../css/ie8.css">
+    <![endif]-->
+    <style type="text/css">
+        .layui-btn + .layui-btn {
+            margin: 0px
+        }
+    </style>
+</head>
+<body style='background-color: #fff'>
+<!--查看明细详情-->
+<!--<div id='view_details' style="display:none;">-->
+    <div id='view_details' style="">
+        <form id="checkForm_bill" class="form-horizontal" role="form" autocomplete="off">
+            <div class="titleName parting_line">商户名称 - <span id="shopEntityName"></span>
+                <div class="rightBill">
+                 <span id="listFlagImg" class="inv-flagTypeInfo "
+                       style=""></span>
+                 <span id="invoiceSortImg" class="inv-flagTypeInfo"
+                       style=""></span>
+                </div>
+            </div>
+            <div class="container-fluid parting_line">
+                <div class='subtitle'>基本信息</div>
+                <div class="row">
+                    <!--1-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" style="font-size:17px;">
+                            <small>账单编号</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="bill_number" value="" class="form-control col-sm-12"
+                                   autocomplete="false" readonly='readonly'/>
+                        </div>
+                        <label class="col-sm-3 control-label no-padding-right" style="font-size:17px;">
+                            <small>帐单类型</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="bill_type" class="form-control col-sm-12" readonly='readonly'/>
+                        </div>
+                    </div>
+                    <!--2-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" style="font-size:17px;">
+                            <small>小票流水号</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="serial_number" value="" class="form-control col-sm-12"
+                                   autocomplete="false"/>
+                        </div>
+                        <label class="col-sm-3 control-label no-padding-right" style="font-size:17px;">
+                            <small>帐单序号</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="order_number" class="form-control col-sm-12"
+                                   readonly='readonly'/>
+                        </div>
+                    </div>
+                    <!--3-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" style="font-size:17px;">
+                            <small>终端设备</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="terminal_equipment" value="" class="form-control col-sm-12"
+                                   autocomplete="false" readonly='readonly'/>
+                        </div>
+                        <label class="col-sm-3 control-label no-padding-right" style="font-size:17px;">
+                            <small>销售时间</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="selling_number" class="form-control col-sm-12"
+                                   readonly='readonly'/>
+                        </div>
+                    </div>
+                    <!--4-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" style="font-size:17px;">
+                            <small>打印时间</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="printing_time" value="" class="form-control col-sm-12"
+                                   autocomplete="false" readonly='readonly'/>
+                        </div>
+                        <!--<label class="col-sm-3 control-label no-padding-right" style="font-size:17px;">-->
+                        <!--<small></small>-->
+                        <!--</label>-->
+                        <!--<div class="col-sm-3">-->
+                        <!--<input style="border:none" type="text" />-->
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid parting_line">
+                <div class='subtitle'>收银信息</div>
+                <div class="row">
+                    <!--1-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" style="font-size:17px;">
+                            <small>应收金额</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="receivableAmount" value="" class="form-control col-sm-12"
+                                   autocomplete="false" readonly='readonly'/>
+                        </div>
+                        <label class="col-sm-3 control-label no-padding-right" style="font-size:17px;">
+                            <small>总金额</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="totalFee" class="form-control col-sm-12" readonly='readonly'/>
+                        </div>
+                    </div>
+                    <!--2-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" style="font-size:17px;">
+                            <small>实收金额</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="paidAmount" value="" class="form-control col-sm-12"
+                                   autocomplete="false" readonly='readonly'/>
+                        </div>
+                        <label class="col-sm-3 control-label no-padding-right" style="font-size:17px;">
+                            <small>折扣金额</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="discountAmount" class="form-control col-sm-12"
+                                   readonly='readonly'/>
+                        </div>
+                    </div>
+                    <!--3-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" style="font-size:17px;">
+                            <small>找零金额</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="changeAmount" value="" class="form-control col-sm-12"
+                                   autocomplete="false" readonly='readonly'/>
+                        </div>
+                        <label class="col-sm-3 control-label no-padding-right" style="font-size:17px;">
+                            <small>优惠金额</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="couponAmount" class="form-control col-sm-12"
+                                   readonly='readonly'/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid parting_line">
+                <div class='subtitle'>其他信息</div>
+                <div class="row">
+                    <!--1-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" style="font-size:17px;">
+                            <small>消费人数</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="consumeNum" value="" class="form-control col-sm-12"
+                                   autocomplete="false" readonly='readonly'/>
+                        </div>
+                        <label class="col-sm-3 control-label no-padding-right" style="font-size:17px;">
+                            <small>桌号</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="deskNo" class="form-control col-sm-12" readonly='readonly'/>
+                        </div>
+                    </div>
+                    <!--2-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" style="font-size:17px;">
+                            <small>房间号</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="roomNo" value="" class="form-control col-sm-12"
+                                   autocomplete="false" readonly='readonly'/>
+                        </div>
+                        <label class="col-sm-3 control-label no-padding-right" style="font-size:17px;">
+                            <small>入住人姓名</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="checkinName" class="form-control col-sm-12"
+                                   readonly='readonly'/>
+                        </div>
+                    </div>
+                    <!--3-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" style="font-size:17px;">
+                            <small>入住时间</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="inTime" value="" class="form-control col-sm-12"
+                                   autocomplete="false" readonly='readonly'/>
+                        </div>
+                        <label class="col-sm-3 control-label no-padding-right" style="font-size:17px;">
+                            <small>离店时间</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="outTime" class="form-control col-sm-12" readonly='readonly'/>
+                        </div>
+                    </div>
+                    <!--4-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" style="font-size:17px;">
+                            <small>收银台</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="checkstand" value="" class="form-control col-sm-12"
+                                   autocomplete="false" readonly='readonly'/>
+                        </div>
+                        <label class="col-sm-3 control-label no-padding-right" style="font-size:17px;">
+                            <small>收银员</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id='cashier' class="form-control col-sm-12" readonly='readonly'/>
+                        </div>
+                    </div>
+                    <!--5-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right" style="font-size:17px;">
+                            <small>售货员</small>
+                        </label>
+                        <div class="col-sm-3">
+                            <input style="" type="text" id="saler" value="" class="form-control col-sm-12"
+                                   autocomplete="false" readonly='readonly'/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="countTable">
+                    <table class='table table-bordered' id='settlement_mode'>
+                        <tr>
+                            <th>结算方式</th>
+                            <th>结算金额</th>
+                        </tr>
+                        <tr></tr>
+                    </table>
+                </div>
+                <div>
+                    <div class='subtitle'>商品详情</div>
+                    <div class="countTable" id="detailsTable">
+                        <table class='table table-bordered' id='goodsMessage'>
+                            <tr>
+                                <th>商品名称</th>
+                                <th>商品编码</th>
+                                <th>商品单价</th>
+                                <th>商品数量</th>
+                                <th>商品总价</th>
+                            </tr>
+                            <tr></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+<!--&lt;!&ndash;[if !IE]> &ndash;&gt;-->
+<!--<script type="text/javascript">-->
+    <!--window.jQuery || document.write("<script src='../FrontFrame/jQuery/jquery.min.js'>" + "<" + "/script>");-->
+<!--</script>-->
+<!--&lt;!&ndash; <![endif]&ndash;&gt;-->
+
+<script src="../FrontFrame/jQuery/jquery-1.11.1.min.js"></script>
+<!-- bootStrap&jqGrid&jQueryUi -->
+<script src="../FrontFrame/jQuery/jquery-ui.js"></script>
+<script src="../FrontFrame/Bootstrap/js/bootstrap.js"></script>
+<script src="../FrontFrame/jQuery/jquery.jqGrid.src.js"></script>
+<script src="../FrontFrame/jQuery/grid.locale-cn.js"></script>
+<!-- bootStrap&jqGrid -->
+<script src="../FrontFrame/layui/layui.js"></script>
+<script src="../FrontFrame/custom/js/custom.min.js"></script>
+<script src="../js/tools.js"></script>
+<!--<script src="../js/config.js"></script>-->
+<script src="../../js/MathContext.js"></script>
+<script src="../../js/BigDecimal.js"></script>
+<script src="../../js/MathCount.js"></script>
+<script src="../js/common.js"></script>
+<script src="../FrontFrame/jQuery/jquery.placeholder.js"></script>
+<!--<script src="js/commonBill.js"></script>-->
+<script>
+    $(document).ready(function () {
+        alert(11);
+        window.top.setBillInfo = function (data, flag) {
+            emptyBill();
+            $("#bill_number").val(data.id); // 单据编号
+            var billType = data.billType;
+            if (billType == 1) {
+                $("#bill_type").val('结账单'); // 订单类型
+            }
+            else if (billType == 2) {
+                $("#bill_type").val('预结单'); // 订单类型
+            }
+            else if (billType == 3) {
+                $("#bill_type").val('日结单'); // 订单类型
+            } else if (billType == 7) {
+                $("#bill_type").val('点菜单'); // 订单类型
+            } else if (!billType) {
+                $("#bill_type").val(''); // 订单类型
+            }
+            $("#serial_number").val(data.billSerialNumber); //流水号
+            $("#order_number").val(data.billNo); //订单编号
+            $("#terminal_equipment").val(data.terminalNumber); //终端设备
+            if (data.saleTime == null || data.saleTime == undefined || data.saleTime == "") {
+                $("#selling_number").val('');
+            } else {
+                $("#selling_number").val(timeStamp2String(data.saleTime)); //销售时间
+            }
+            ;
+            if (data.printDate == null || data.printDate == undefined || data.printDate == "") {
+                $("#printing_time").val('');
+            } else {
+                $("#printing_time").val(timeStamp2String(data.printDate)); //打印时间
+            }
+            ;
+            $("#receivableAmount").val(data.receivableAmount != undefined && data.receivableAmount != null && data.receivableAmount !== '' ? Number(data.receivableAmount).toFixed(2) : ''); // 应收金额
+            $("#totalFee").val(data.totalFee != undefined && data.totalFee != null && data.totalFee !== '' ? Number(data.totalFee).toFixed(2) : ''); // 总金额
+            $("#paidAmount").val(data.paidAmount != undefined && data.paidAmount != null && data.paidAmount !== '' ? Number(data.paidAmount).toFixed(2) : ''); // 实收金额
+            $("#discountAmount").val(data.discountAmount != undefined && data.discountAmount != null && data.discountAmount !== '' ? Number(data.discountAmount).toFixed(2) : ''); // 折扣金额
+            $("#changeAmount").val(data.changeAmount != undefined && data.changeAmount != null && data.changeAmount !== '' ? Number(data.changeAmount).toFixed(2) : ''); // 找零金额
+            $("#couponAmount").val(data.couponAmount != undefined && data.couponAmount != null && data.couponAmount !== '' ? Number(data.couponAmount).toFixed(2) : ''); // 优惠金额
+            $("#consumeNum").val(data.consumeNum); // 消费人数
+            $("#deskNo").val(data.deskNo); //桌号
+            $("#roomNo").val(data.roomNo); //房间号
+            if (data.inTime == null || data.inTime == undefined || data.inTime == "") {
+                $("#inTime").val('');
+            } else {
+                $("#inTime").val(timeStamp2String(data.inTime)); //入住时间
+            }
+            ;
+            if (data.outTime == null || data.outTime == undefined || data.outTime == "") {
+                $("#outTime").val('');
+            } else {
+                $("#outTime").val(timeStamp2String(data.outTime)); //离店时间
+            }
+            ;
+            $("#checkinName").val(data.checkinName); //入住人姓名
+            $("#checkstand").val(data.checkstand); //收银台
+            $("#cashier").val(data.cashier); //收银员
+            $("#saler").val(data.saler); //售货员
+            if (data.settlementWay && data.settlementWay.length > 0) {
+                var billHtml = '';
+                //var settlementWay=$.parseJSON(data.settlementWay);
+                var settlementWay = data.settlementWay;
+                for (var i = 0; i < settlementWay.length; i++) {
+                    billHtml += '<tr><td>' + settlementWay[i].p + '</td><td>' + (settlementWay[i].a != undefined && settlementWay[i].a != null && settlementWay[i].a !== '' ? Number(settlementWay[i].a).toFixed(2) : '' ) + '</td></tr>'
+                }
+            }
+            ;
+            $('#settlement_mode').append(billHtml); // 结算方式
+
+            if (data.goodsDetails && data.goodsDetails.length > 0) {
+                var goodsHtml = '';
+                //var goodsDetails=$.parseJSON(data.goodsDetails);
+                var goodsDetails = data.goodsDetails;
+                for (var i = 0; i < goodsDetails.length; i++) {
+                    goodsHtml += '<tr><td>' + goodsDetails[i].name + '</td><td>' + goodsDetails[i].itemserial + '</td><td>' + (goodsDetails[i].price != undefined && goodsDetails[i].price != null && goodsDetails[i].price !== '' ? Number(goodsDetails[i].price).toFixed(2) : '') + '</td><td>' + goodsDetails[i].totalnum + '</td><td>' + (goodsDetails[i].totalprice != undefined && goodsDetails[i].totalprice != null && goodsDetails[i].totalprice !== '' ? Number(goodsDetails[i].totalprice).toFixed(2) : '' ) + '</td></tr>'
+                }
+            }
+            ;
+            $('#goodsMessage').append(goodsHtml); // 商品详情
+            $('#shopEntityName').text(data.shopEntityName);
+            var isCombinedInvoice = window.top.isCombinedInvoice;
+            if (isCombinedInvoice) {
+                if (isCombinedInvoice == 'Y') {
+                    $('#invoiceSortImg').css({'display': 'inline-block'});
+                    $("#invoiceSortImg").addClass("inv-flagTypeInfoB");
+                    $("#invoiceSortImg").text("合"); //是否合并
+                } else if (isCombinedInvoice == 'C') {
+                    $('#invoiceSortImg').css({'display': 'inline-block'});
+                    $("#invoiceSortImg").addClass("inv-flagTypeInfoB");
+                    $("#invoiceSortImg").text("拆"); //是否合并
+                }
+                else {
+                    $('#invoiceSortImg').css({'display': 'none'});
+                    $("#invoiceSortImg").removeClass("inv-flagTypeInfoB");
+                    $("#invoiceSortImg").text("");
+                }
+                ;
+            }
+            ;
+
+            if (flag == "bill") {
+                var invoiceAbleStatus = 1;
+            } else {
+                var invoiceAbleStatus = window.top.invoiceAbleStatus;
+            }
+            ;
+            if (invoiceAbleStatus != undefined && invoiceAbleStatus != null && invoiceAbleStatus !== "") {
+                if (invoiceAbleStatus == '1') {
+                    $("#listFlagImg").addClass("inv-flagTypeInfoB");
+                    $("#listFlagImg").text("票");
+                } else {
+                    $("#listFlagImg").addClass("inv-flagTypeInfoA"); // 是否开票
+                    $("#listFlagImg").text("票");
+                }
+                ;
+            }
+        }
+        function emptyBill() {
+            $("#checkForm_bill input[type='text']").each(function () {
+                $(this).val("");
+            });
+            $("#settlement_mode tr:not(:first)").html("");
+            $("#goodsMessage tr:not(:first)").html("");
+            $('#shopEntityName').text("");
+            $('#invoiceSortImg').css({'display': 'none'});
+            $("#invoiceSortImg").removeClass("inv-flagTypeInfoB");
+            $("#invoiceSortImg").text("");
+            $("#listFlagImg").addClass("inv-flagTypeInfoA");
+            $("#listFlagImg").removeClass("inv-flagTypeInfoB");
+            $("#bill_saletime").val("");
+            $("#bill_equipment").val("");
+            $("#invoiceTime").val("");
+            $("#bill_style").val("");
+            $("#bill_style").find("option[value='']").attr("selected", true);
+        }
+    })
+
+</script>
+</body>
+</html>

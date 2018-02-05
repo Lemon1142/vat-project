@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>销项发票查询</title>
+    <link rel="stylesheet" href="../FrontFrame/jQuery/css/jquery-ui.css" />
+    <link rel="stylesheet" href="../FrontFrame/jQuery/css/ui.jqgrid.css" />
+    <link rel="stylesheet"
+          href="../FrontFrame/Bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet"
+          href="../FrontFrame/FontAwesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../FrontFrame/jQuery/css/jstree.css" />
+
+    <![if !IE]>
+    <link rel="stylesheet" href="../FrontFrame/Bootstrap/css/ace.min.css"
+          id="main-ace-style" />
+    <![endif]>
+    <link rel="stylesheet" href="../FrontFrame/layui/css/layui.css">
+    <!-- Custom Theme Style  -->
+    <link rel="stylesheet" href="../FrontFrame/custom/css/custom.min.css">
+    <!--<link rel="stylesheet" href="../../css/zTreeStyle.css"/>-->
+
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/rollInvoice.css">
+    <link rel="stylesheet" href="../pages/xxgl/css/xx_fp_cx.css">
+    <style type="text/css">
+        .layui-btn+.layui-btn {
+            margin-left: 0px
+        }
+    </style>
+</head>
+<body style="background-color: #F7F7F7">
+
+<!-- 查看界面 -->
+<div id="rollInfo" style="">
+    <div class="space-4"></div>
+    <div id="add_modify_tree" class="form-group">
+        <div class="row" style="margin: auto;">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel" style="font-size: 12px; margin: 0; padding: 0px 15px;">
+                    <div class="inv-content">
+                        <div class="row" style="height: 40px; line-height: 4;">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <div style='width: 180%' id="rollHeadFlag">
+									  <span id="invoiceSort_img" class="inv-flagTypeInfo"
+                                            style="margin-left: 0px"></span>
+									  <span id="listFlag_img" class="inv-flagTypeInfo "
+                                            style="margin-left: 0px">清单</span>
+									  <span id="printFlag_img" class="inv-flagTypeInfo "
+                                            style="margin-left: 0px">打印</span>
+									  <span id="cancelFlag_img" class="inv-flagTypeInfo "
+                                            style="margin-left: 0px">作废</span>
+									  <span id="invoiceType_img" class="inv-flagTypeInfo "
+                                            style="margin-left: 0px">红冲</span>
+                                </div>
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-xs-9" id="headFlagRight_roll">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 col-xs-3"></div>
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                        <div class="inv-label">报送状态</div>
+                                        <div id="submitStatus_info" class="inv-labelData"></div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                        <div class="inv-label">开票机号</div>
+                                        <div id="billingNo_info" class="inv-labelData"></div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                        <div class="inv-label">机器编号</div>
+                                        <div id="machineNo_info" class="inv-labelData"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="rollBanner" style="padding: 10px 20px 10px; border-top: 1px solid rgb(173, 116, 76); border-left: 1px solid rgb(173, 116, 76); border-right: 1px solid rgb(173, 116, 76);">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <div class="row" style="text-align: center; padding: 10px;">
+                                    <div class="inv-negative">
+                                        <div>销项负数</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6" style="text-align: center; padding-top: 15px;height: 7rem">
+                                <div style="font-size: 16px;" class="invoice_title" ></div>
+                                <div style="height: 4px; margin-top: 12px; border-top: 1px solid rgb(173, 116, 76); border-bottom: 1px solid rgb(173, 116, 76);"></div>
+                                <div style="position: absolute;width: 150px;top: 0;left: 50%;margin-left: -75px">
+                                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAABqCAYAAABeUaiAAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NDk1RTA0NDg3RjQzMTFFN0E4QTI4MTcxQzNDNzEyNkUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NDk1RTA0NDk3RjQzMTFFN0E4QTI4MTcxQzNDNzEyNkUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0OTVFMDQ0NjdGNDMxMUU3QThBMjgxNzFDM0M3MTI2RSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0OTVFMDQ0NzdGNDMxMUU3QThBMjgxNzFDM0M3MTI2RSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PuESSMkAABQqSURBVHja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" style="width: 100%;height: 80px" />
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3" style="padding: 10px 10px 0;"></div>
+                        </div>
+                        <div class="row" style="height: 150px;border-left: 1px solid rgb(173, 116, 76);border-right: 1px solid rgb(173, 116, 76);">
+                            <div class="col-md-1 col-sm-1 col-xs-1" style="width: 5%"></div>
+                            <div class="col-md-5 col-sm-5 col-xs-5" style="width: 45%">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2 col-xs-2" style="padding: 0px;text-align: left">
+                                        <div class="inv-formLable">发票代码</div>
+                                    </div>
+                                    <div class="col-md-10 col-sm-10 col-xs-10" style="padding-left: 0px;">
+                                        <div style="height: 30px; position: relative;">
+                                            <input id="invoiceCode_info" type="text" value="" readonly="readonly" style="padding: 3px 0px 4px; border: none; width: 100%; line-height: 2; font-family: inherit; font-size: inherit;">
+                                            <hr class="inv-inputLine">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2 col-xs-2" style="padding: 0px;text-align: left">
+                                        <div class="inv-formLable">发票号码</div>
+                                    </div>
+                                    <div class="col-md-10 col-sm-10 col-xs-10" style="padding-left: 0px;">
+                                        <div style="height: 30px; position: relative;">
+                                            <input id="invoiceNo_info"  type="text" value="" readonly="readonly" style="padding: 3px 0px 4px; border: none; width: 100%; line-height: 2; font-family: inherit; font-size: inherit;">
+                                            <hr class="inv-inputLine">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2 col-xs-2" style="padding: 0px;text-align: left;">
+                                        <div class="inv-formLable">机器编码</div>
+                                    </div>
+                                    <div class="col-md-10 col-sm-10 col-xs-10" style="padding-left: 0px;">
+                                        <div style="height: 30px; position: relative;">
+                                            <input id="machineNo_roll" type="text" value="" readonly="readonly" style="padding: 3px 0px 4px; border: none; width: 100%; line-height: 2; font-family: inherit; font-size: inherit;">
+                                            <hr class="inv-inputLine">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2 col-xs-2" style="padding: 0px;text-align: left;width: 22%">
+                                        <div class="inv-formLable">销售方名称</div>
+                                    </div>
+                                    <div class="col-md-10 col-sm-10 col-xs-10" style="padding-left: 0px;width: 78%">
+                                        <div style="height: 30px; position: relative;">
+                                            <input id="sellerName_roll" type="text" value="" readonly="readonly" style="padding: 3px 0px 4px; border: none; width: 100%; line-height: 2; font-family: inherit; font-size: inherit;">
+                                            <hr class="inv-inputLine">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2 col-xs-2" style="padding: 0px;text-align: left;width: 22%">
+                                        <div class="inv-formLable">纳税人识别号</div>
+                                    </div>
+                                    <div class="col-md-10 col-sm-10 col-xs-10" style="padding-left: 0px;width: 78%">
+                                        <div style="height: 30px; position: relative;">
+                                            <input id="sellerTaxNo_roll" type="text" value="" readonly="readonly" style="padding: 3px 0px 4px; border: none; width: 100%; line-height: 2; font-family: inherit; font-size: inherit;">
+                                            <hr class="inv-inputLine">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-1" style="width: 5%"></div>
+                            <div class="col-md-5 col-sm-5 col-xs-5" style="width: 45%">
+                                <div class="inv-cancelFlag" style="width: 36%; margin: auto; padding: 20px 0;">
+                                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAABfCAYAAAApvW9LAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MTVDRkY4MzE4MERDMTFFNzgyRTc4N0VEMzBDNTQ1QjgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MTVDRkY4MzI4MERDMTFFNzgyRTc4N0VEMzBDNTQ1QjgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDoxNUNGRjgyRjgwREMxMUU3ODJFNzg3RUQzMEM1NDVCOCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDoxNUNGRjgzMDgwREMxMUU3ODJFNzg3RUQzMEM1NDVCOCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pr7tlzcAAA5USURBVHja7F0JdFxVGf5TCgUKGlBAEHUibS212lQFCqIEZBFpMbGgR0DaqmxapAu0gkBbVkuXpC1Q1NKkgu2RgqQCShdpoCqoQFJLyxaatCC4gWEXFer/nfku88/LTDJJZnlv5v7nfCczc2cyb9793r3/cu/3yubPmydZtGrFOYrZiibxFjnrl+X/N13xRcV6xUMkSD9/mkuTEFWKUeb5YYo7FY8pxit28ae7tAjx/TSvH6yoV7QqJikG+tNe/IQYqTiej/+nOEJxraLDvOdDilrFdsVMxfv96S9eQsB3KOPjlYoHFZcoPsK2F8x791bMULQr6hQf9t1QXIQYpBjLxzsYYTh7RXGdooLRR6tpw9RxAV9rUAzz3VEchLhQ0Z+P71VsTPGetxQ/VgxVfE3xqGnbWTGOzmej4nDfLdElxP6KM83z2d28/23FbYpPK05Q3GfaMOV8WfF75jBONNOQt4gQAkP+bnwMv+H+Hnx2jeILDE9/oXjHtB2l+JWiWfF1MwJ5CzEhyukXZDo6pLM/0gf5uGKp4j+mbYRiueJJxXmKXX2XhZcQ55IUsC2KX/bxWJ5QfEtxkGK+4jXT9lHFjYxMLjbf6y0khMA08b3A6LAjS8f0nGIqQ9bLFf8wbfsprlFs43fu77swHIQ403QGEk0rcnBsLymuVMRIvm2m7T2KaYo2xY8Y+norECH6M9R0hnLpf3N4jG8oFikGk4iPmbYBirM53fxc8SnfpfknxFhzRf5TcXOejhWku0XxScXJit+Ztp0UX1U8olitOMZ3bX4IgbzAdPMcV+7reT5m+Cp3KY5UfJ7hqfVfUFP5jeIPiq+IL7/nlBA42SP5GFHADQU+/g2KkxSVip9JvLDm7FDFHYrNim+KL7/nhBC2xP0TxYsh+R1/VpyhGEKSvmnahnJae0YxRbGH7/bsEAKLX6r4GMmj2hD+HkQdExmZXK34l2k7kA4wopUrFPv47u8bIazvgOH52RD/rr8rLmUu4yLF86YN5ffLJJ7kWsj3eOshIYbRs4eh5jAnIr/vVcVciWc6z1I8bdp2V5zP136qGO7pkDkhLjLvXaV4PGK/E+X3JfQnTlU8bNpQfv8G/RCk3z/rCdG1YUXTaeb57Aj/XoxutysOURzH8NSG1GMUv1U8oPiSlGD5PRNCTDYh23rG98Vg6xTHkhx3SHL5/XOKexQtitOlhMrv3RHifYpvF8nokM4wfZwi8dXhSyS5/I6s6K2KpxTflcTaj5IlxEQTt2OxyuoiPhdP0fGsYHj6qmnDa9czMvmBFHH5vStCDCQhnP2wREZNhKgXMhy9lCGss30VV0m8wotI64BSIgSmCrd3opXzbCkZklpXc3SYyNHB2Z4kzVaJZ2wHFzshEIpNMc8Ry79dopEYyu83sNORHt9k2gbwwkH5HftRPlOshDhNEhtosMlmmXhD4QwZWqzzHM3w1J5HOKZ/UqyV+OLhoiEEYu9p5vkCxb89H961HQxJEZqiBH+3JJffj2VIC3KMlYiV31MdLFLUbhcV9mbe5DmQ1rBIZwzD01skufyO6QNJsMc5rewSVULYEjfI8HKEO2y85Kcqi2V9WN43iOHpG6ZtCB1PVGKn0iGNDCGwQcZpPLzJ6SLKZKjn31ievhOl9fP5fQhPXzJtB9A5x3uuZAgbekLY0QGO5F8jTgZMeUebkBGjBURMcp1YwtaBy0gMjAp/MW17Mb/RxtEkFlZCYBnaCcajnlskZGjh63htUp47ANlObDpC+R2bkJ40bSi/Ix2O8jvS458IGyGsxgOcoWciSIZ6AlYTIMN4Pj9akoVM8mGojyylsz6WEYgzFM5QQNvIiOXIMBDiIMbRLqyKWhELV30zO104RTSleL2S00ahhmlUVLGx+VDmKtYGwn0sGN7AHMdoKUD53RFiqiRKvKvNlRUFq2anV5orfxanB/d6A+fudpKjjb5EVQGPG1IIWMUOaYSVklx+xyIdbDVwi4f755MQHzBXECxqRawR7OgJdBbd6FBrpo4JJEaMZHfP1xOFJAbEU7DJ6GMMT98ybcOZ30AtaSL9jpwTAvsmdwtEGlURIgRGg5EMmd3zdvoKKEw18vVx/LuAI0YFiREjKdoK7PGj08/mcaGS+oppQ+V1EX8XIpS9c0mImCSnXp3w6IMSHeHRco5yHYYATWYKiZn2BvM5R4waPm43kQqqnTMk/2sfUDuaRhJg7YUtv+/DHAaOE2s2PpgLQqCQhU2yKyQ59TqK8+wmCb/w6AX8W5cmgphhiNPG32M7upEji31/Of2QtoAjWssLJtdEwe+4hsRAeLrVtCHbOYWv3czpJqtOZQuJgX+8WJKLWcMk3MKjruM6JHVm1Y0O7SZJVc+OTjUCVPEzbvSoM45oPduq6IPkw9AXN7JvXHjqDBcptilukcTi4azlIYSM+w5/dDrhUaReZ0p4hEcvYKemGx3GmemhKeBbzDR5i+BosoxTZow+ykwSoZrtR+X5d2L0Xs5jwYrwBwL9iPwG5Jmwkvy43n5JWTdq+BDmOJdXYFCtBbu+lzATt72AhHDOYIUkr2qyU0Q5w86OFKOHmM9VcTpoIiHq2VbDdqjkvUwSxvi+WVI45f/DGQSMSZGzeJQRY3BFeY9GiKCFXXh0vBne27sYPSTNFNEe+NwM45AG09/1HCVaTIQiJFBzIHTPlz1IkiLtjd1nVrgFfiEkILGaC4uHB2SDEM4yER7dJPkXHu0wV2k630I4zLopwhEjlsJ3qDKjg4tGmk2Cq86MBuX8/hr+rS9g6LqZfYDy+0JJ1uwYzL7DsV3EUb/PhHDWlfBoP8m/8GijJFczrVWz0xpMMsr5DpPMVBIcHWaZRFcFP1tpSBAzZKymL3E0kW6kypdtN9MZdrjb8vv+HO3hA2Lx8L698SEyMeTlp6fJWbTwIFYGQtow+BYxSaToqxliO6fTTknOj1hgTnYjn8/gqDJSwpnuH8hk12QGBcHoZSnzGVt7O0Kksq6ERyulMMKj5ezcmWmu2A7TgZXGX5iQggzOp2gwvoNLe8d4ssNa+3mdkeEghqd2k/aujCjRN27xcFZGiKAdyJN0lnReLvY3XlmLJf8l6HTEWc8OruGVX84rf1IKEjXw+NtJmHEcIdq7mLrCZG5ax4h+WKAN2eoVuUhLO+FRXD1hFh6t4rRSyau+ka81kwxNdCKFZAkmqJpC5Dtkau9wahzF47ZbM+Hvbc9lnSLswqMuYeWqpM2SSElP5glbZfIVs8yUUS2JFHi6KCfs1sSL0xnW0C7MR+EqE+FRzGP5Fh51VdIGkqOcPkeFGRlaTELK+RvuvS0S/VtRBtfQvpALH6I7w9A0mvNYKrWWNZxO7ivACao3CauNJr8Q42vu7yxJrppG0UZwVCxjBAg5hNZClLaDwqP3SHiERzskUQy7k1NIh3FAaziCRJ0MIslraJHebhUp/FqHDRwtwiI86nyHCp6sMk4rdSTEUVIchlXgp5oLdHY28xDZsKDwqN35FBQeLcTOJ5drmJQiHI2i2fukreHUESpCOHPCo7hC0wmPYg4vhPCoK3LVSueSeZRsP+liDW1Yl8eFUXjUVT4bTSgaRbP3SXsoGCmFfb1kUHj0KdPmhEfhDOVLeNRVNydINBJRQUP+5zzzvNP+m6hoFzjh0YOls/Ao5kIvPJqZdXuftKjdSyIoPLoukN+wwqMnib/vp7UBAYd4jqRYSRXlm4usIykOIUmCwqN3SwkKj3ZhyLDa+6QtT/WmYrjbzMOcRjIRHt29RMnQj865s9rAeSoqQjizwqNzJbXwKMJabH7Zq8QIgY3c9j5pS7piTrHZ87wauhIe3SZFKjyaxmwRC4m/10qJEM6CwqNtps0Jj+I1bLAdUsTnIXiftOu7m1uK3ZzwKDr9DIanzlAfgUIclpYVhfBoN6PDzZwySpoQzpzwKAppKKhtCJwHKzx6bJH8ZhQI3aJhOJHzM/E+S82c8ChK7yjB3yWdhUfXkhynRPwc2dFhhWSww67Ub3IK4dGTJb3w6EpJCI8OiNhvQ5XYrfRCjua6TONTb8nCo4sktfDoVjqie0bkN00z/YtRcIsnRM8N4SgWBMckvkA4KDw6h++5SkIqPErDUoHTzfOMZaI8IVIbtg5cLgnh0edMG5JaSG61M4SrCOHxT5HECrMmiZe5PSGyYE54FLKNEB59wrRhTQHS4ciQ3ko/JAyG9SJnmec9kpj0hMjMnPAotis6YQ5nTni0RRK3TSik2fuk4ZhWe0LkzpzwKLbBQXh0jWlDqd0pu6AEn0rEI9fmFg3Z0WGHJ0R+DPtGIIkAaYTbpLPwKBafICuKxTs75+mY7H3SsCj59p7+A0+IvhvEUyCiAlEwCHMEhUexvO9pXrm5LL/3pwPsbK70QoLBEyJ7hrWd5zDqQBIoKDy6kJHJZZIb4VF7nzTc1qJX90nzhMi+QXh0OklwicQlEJxh68AVzGXMY74gG1bG73QGyYI3PSHCZVihfS1zGRDmsMKjezBXgHkeFcihffwuOLBO9A0qeb2+T5onRO4N0j2L6WNgWE8lPLpZErdN6I3Z0eEm6YMYiydE/gwOHiqOTnj0/kA/YL8HNjhjo/PxPfi/qNoeYcjXp/ukeULk35AX+LXE1WrQkasCuYJjJJ5MekTit03YqQejwzL6MJ4QETV3x4Hh7Myg8ChEVJAuh6hKqvI7NB5O5OO3JQv3SfOECIehND1e4uV3DPlWeBSvQXYJ6z9R0rbCo9Mk+T5prZ4QxWVY0eTuHAiVmhdNGzbZzOZ7oA11OKcUZ1m5T5onRDgNC2FnMpcBbYpnTdt7FRdLXDHY3iet2ROi+A1TRx2nDew4fzzN+7J2nzRPiGgYyu8NdD4RntoFLwhVmzwhStNQUXV3HMDy+nsly3dR/L8AAwCIcG1tAGdvqQAAAABJRU5ErkJggg==" style=""/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row lineBorder" style="height: 30px;">
+                            <div class="col-md-1 col-sm-1 col-xs-1" style="width: 5%"></div>
+                            <div class="col-md-5 col-sm-5 col-xs-5" style="width: 45%">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2 col-xs-2" style="padding: 0px;text-align: left;width: 22%">
+                                        <div class="inv-formLable">开票日期</div>
+                                    </div>
+                                    <div class="col-md-10 col-sm-10 col-xs-10" style="padding-left: 0px;width: 78%">
+                                        <div style="height: 30px; position: relative;">
+                                            <input id="invoicePrintDate_roll" type="text" value="" readonly="readonly" style="padding: 3px 0px 4px; border: none; width: 100%; line-height: 2; font-family: inherit; font-size: inherit;">
+                                            <hr class="inv-inputLine">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-1" style="width: 5%"></div>
+                            <div class="col-md-5 col-sm-5 col-xs-5" style="width: 45%">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2 col-xs-2" style="padding: 0px;text-align: center">
+                                        <div class="inv-formLable">收款员</div>
+                                    </div>
+                                    <div class="col-md-10 col-sm-10 col-xs-10" style="padding-left: 0px;">
+                                        <div style="height: 30px; position: relative;">
+                                            <input id="receivable_roll" type="text" value="" readonly="readonly" style="padding: 3px 0px 4px; border: none; width: 100%; line-height: 2; font-family: inherit; font-size: inherit;">
+                                            <hr class="inv-inputLine">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row lineBorder" style="height: 30px;">
+                            <div class="col-md-1 col-sm-1 col-xs-1" style="width: 5%"></div>
+                            <div class="col-md-11 col-sm-11 col-xs-11" style="width: 95%">
+                                <div class="row">
+                                    <div class="col-md-1 col-sm-1 col-xs-1" style="padding: 0px;text-align: left;width: 10%">
+                                        <div class="inv-formLable">购买方名称</div>
+                                    </div>
+                                    <div class="col-md-11 col-sm-11 col-xs-11" style="padding-left: 0px;width: 90%">
+                                        <div style="height: 30px; position: relative;">
+                                            <input id="custName_roll" type="text" value="" readonly="readonly" style="padding: 3px 0px 4px; border: none; width: 100%; line-height: 2; font-family: inherit; font-size: inherit;">
+                                            <hr class="inv-inputLine">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row lineBorder" style="height: 30px;">
+                            <div class="col-md-1 col-sm-1 col-xs-1" style="width: 5%"></div>
+                            <div class="col-md-11 col-sm-11 col-xs-11" style="width: 95%">
+                                <div class="row">
+                                    <div class="col-md-1 col-sm-1 col-xs-1" style="padding: 0px;text-align: left;width: 10%">
+                                        <div class="inv-formLable">纳税人识别号</div>
+                                    </div>
+                                    <div class="col-md-11 col-sm-11 col-xs-11" style="padding-left: 0px;width: 90%">
+                                        <div style="height: 30px; position: relative;">
+                                            <input id="custTaxNo_roll" type="text" value="" readonly="readonly" style="padding: 3px 0px 4px; border: none; width: 100%; line-height: 2; font-family: inherit; font-size: inherit;">
+                                            <hr class="inv-inputLine">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row lineBorder" style="">
+                            <div class="col-md-1 col-sm-1 col-xs-1" style="width: 5%"></div>
+                            <div class="col-md-11 col-sm-11 col-xs-11 lineBorder" style="margin-top: 30px;padding-bottom: 30px; border-bottom: 1px solid rgb(173, 116, 76);">
+                                <div class="row" style="border-top: 1px solid rgb(173, 116, 76);">
+                                    <div class="inv-itemTitle" style="width: 5%;height: 30px;border-left: none">
+                                        <div>NO</div>
+                                    </div>
+                                    <div class="inv-itemTitle" style="width: 23%;height: 30px;line-height: 30px;">
+                                        <div>项目</div>
+                                    </div>
+                                    <div class="inv-itemTitle" style="width: 22%;height: 30px;line-height: 30px">
+                                        <div>数量</div>
+                                    </div>
+                                    <div class="inv-itemTitle" style="width: 22%;height: 30px;line-height: 30px">
+                                        <div>含税单价</div>
+                                    </div>
+                                    <div class="inv-itemTitle" style="width: 23%;height: 30px;line-height: 30px">
+                                        <div>含税金额</div>
+                                    </div>
+                                    <div class="inv-itemTitle" style="width: 5%;height: 30px;border-bottom: none;">
+                                    </div>
+                                </div>
+                                <div class="inv-itemContent"></div>
+                            </div>
+                        </div>
+                        <div class="row lineBorder" style="border-bottom: 1px solid rgb(173, 116, 76);">
+                            <div class="col-md-1 col-sm-1 col-xs-1" style="width: 5%"></div>
+                            <div class="col-md-5 col-sm-5 col-xs-5" style="width: 45%">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 col-xs-3" style="padding: 0px;text-align: left;width: 25%">
+                                        <div class="inv-formLable">合计金额（小写）</div>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9 col-xs-9" style="padding-left: 0px;width: 75%">
+                                        <div style="height: 30px; position: relative;">
+                                            <input id="invoiceAmount_info_min" type="text" value="" readonly="readonly" style="padding: 3px 0px 4px; border: none; width: 100%; line-height: 2; font-family: inherit; font-size: inherit;">
+                                            <hr class="inv-inputLine">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-3" style="padding: 0px;text-align: left;width: 25%">
+                                        <div class="inv-formLable">合计金额（大写）</div>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9 col-xs-9" style="padding-left: 0px;width: 75%">
+                                        <div style="height: 30px; position: relative;">
+                                            <input id="invoiceAmount_info_max" type="text" value="" readonly="readonly" style="padding: 3px 0px 4px; border: none; width: 100%; line-height: 2; font-family: inherit; font-size: inherit;">
+                                            <hr class="inv-inputLine">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-3" style="padding: 0px;text-align: left;width: 15%">
+                                        <div class="inv-formLable">校验码</div>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9 col-xs-9" style="padding-left: 0px;width: 85%">
+                                        <div style="height: 30px; position: relative;">
+                                            <input id="checkCode_roll" type="text" value="" readonly="readonly" style="padding: 3px 0px 4px; border: none; width: 100%; line-height: 2; font-family: inherit; font-size: inherit;">
+                                            <hr class="inv-inputLine">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-1" style="width: 5%"></div>
+                            <div class="col-md-5 col-sm-5 col-xs-5" style="width: 45%">
+                                <div class="row">
+                                    <div class="col-md-2 col-sm-2 col-xs-2" style="padding: 0px;text-align: center;width: 12%">
+                                        <div class="inv-formLable">备注</div>
+                                    </div>
+                                    <div class="col-md-10 col-sm-10 col-xs-10" style="padding-left: 0px;width: 82%">
+                                        <div style="position: relative;">
+                                            <textarea id="remark_roll" style="width: 100%;height: 60px; border: 1px solid #AD744C" class="lineBorder lineUp" ></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<script src="../FrontFrame/jQuery/jquery.min.js"></script>-->
+<script src="../FrontFrame/jQuery/jquery-1.11.1.js"></script>
+<!--[if IE 8]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../FrontFrame/jQuery/jquery-1.11.1.js'>" + "<" + "/script>");
+</script>
+<![endif]-->
+
+<!--<script src="../FrontFrame/jQuery/jquery.min.js"></script>-->
+<!-- bootStrap&jqGrid&jQueryUi -->
+<script src="../FrontFrame/jQuery/jquery-ui.js"></script>
+<script src="../FrontFrame/Bootstrap/js/bootstrap.js"></script>
+<script src="../FrontFrame/jQuery/jquery.jqGrid.src.js"></script>
+<script src="../FrontFrame/jQuery/grid.locale-cn.js"></script>
+<!-- bootStrap&jqGrid -->
+
+<script src="../FrontFrame/layui/layui.js"></script>
+<script src="../FrontFrame/custom/js/custom.min.js"></script>
+<script src="../js/tools.js"></script>
+<script src="../js/config.js"></script>
+<script src="../js/MathContext.js"></script>
+<script src="../js/BigDecimal.js"></script>
+<script src="../js/MathCount.js"></script>
+<script src="../FrontFrame/jQuery/jquery.placeholder.js"></script>
+<script src="../js/common.js"></script>
+<!--<script src="../pages/xxgl/js/xx_fp_cx.js"></script>-->
+<script src="../js/commonInfo.js"></script>
+<script>
+//    $(document).ready(function(){
+//        layui.use('form', function () {
+//
+//        });
+//    });
+    // 初始化查看页面
+    function emptyJg(){
+        $('#rollHeadFlag #invoiceSort_img').html("");
+        $("#rollHeadFlag #listFlag_img").attr("class","inv-flagTypeInfo  inv-flagTypeInfoA");
+        $("#rollHeadFlag #printFlag_img").attr("class","inv-flagTypeInfo  inv-flagTypeInfoA");
+        $("#rollHeadFlag #cancelFlag_img").attr("class","inv-flagTypeInfo  inv-flagTypeInfoA");
+        $("#rollHeadFlag #invoiceType_img").attr("class","inv-flagTypeInfo  inv-flagTypeInfoA");
+        $('#rollInfo .inv-cancelFlag').css({'display': 'none'}); //红票
+        $('#rollBanner .inv-negative').css({'display': 'none'}); //销项负数
+
+        $("#headFlagRight_roll #submitStatus_info").html(""); // 报送状态
+        $("#headFlagRight_roll #billingNo_info").html(""); // 开票机号
+        $("#headFlagRight_roll #machineNo_info").html(""); // 机器编号
+        $("#rollInfo input").each(function(){
+            $(this).val('');
+        });
+    }
+    window.top.rollInvoiceInfo = function (data,pageFlag) {
+        emptyJg();
+        if(pageFlag == 'bill'){
+            var invoiceDetail = data;
+        }else{
+            var invoiceDetail = data.invoiceDetail;
+        };
+
+        $('#rollInfo .invoice_title').html('增 值 税 普 通 发 票(卷票)');
+        $("#rollHeadFlag #invoiceSort_img").addClass("inv-flagTypeInfoB");
+        $('#rollHeadFlag #invoiceSort_img').html('卷票');
+        if (invoiceDetail.listFlag == '1') { //1标识清单
+            $("#rollHeadFlag #listFlag_img").addClass("inv-flagTypeInfoB");
+        } else {
+            $("#rollHeadFlag #listFlag_img").addClass("inv-flagTypeInfoA");
+        }
+        if (invoiceDetail.printFlag == '1') { //1打印
+            $("#rollHeadFlag #printFlag_img").addClass("inv-flagTypeInfoB");
+        } else {
+            $("#rollHeadFlag #printFlag_img").addClass("inv-flagTypeInfoA");
+        }
+        var cancelFlag = invoiceDetail.cancelFlag; //0-表示正常，1-表示已经作废
+        if (cancelFlag == 1) {
+            $('#rollInfo .inv-cancelFlag').css({'display': 'block'});
+            $("#rollHeadFlag #cancelFlag_img").addClass("inv-flagTypeInfoB");
+        } else {
+            $('#rollInfo .inv-cancelFlag').css({'display': 'none'});
+            $("#rollHeadFlag #cancelFlag_img").addClass("inv-flagTypeInfoA");
+        }
+        var invoiceType = invoiceDetail.invoiceType; //1-表示红票
+        if (invoiceType == 1) {
+            $('#rollBanner .inv-negative').css({'display': 'inline-block'});
+            $("#rollHeadFlag #invoiceType_img").addClass("inv-flagTypeInfoB");
+        } else {
+            $('#rollBanner .inv-negative').css({'display': 'none'});
+            $("#rollHeadFlag #invoiceType_img").addClass("inv-flagTypeInfoA");
+        };
+
+        if (invoiceDetail.submitStatus == 0) {
+            $("#headFlagRight_roll #submitStatus_info").html("未报送");
+        } else if (invoiceDetail.submitStatus == 1) {
+            $("#headFlagRight_roll #submitStatus_info").html("已报送");
+        } else if (invoiceDetail.submitStatus == 2) {
+            $("#headFlagRight_roll #submitStatus_info").html("报送失败");
+        } else if (invoiceDetail.submitStatus == 3) {
+            $("#headFlagRight_roll #submitStatus_info").html("报送中");
+        } else if (invoiceDetail.submitStatus == 4) {
+            $("#headFlagRight_roll #submitStatus_info").html("验签失败");
+        } else {
+            $("#submitStatus_info").html("");
+        };
+        // 开机号码
+        if (invoiceDetail.billingNo != undefined && invoiceDetail.billingNo != null && invoiceDetail.billingNo !== '') {
+            $("#headFlagRight_roll #billingNo_info").html(invoiceDetail.billingNo);
+        } else {
+            $("#headFlagRight_roll #billingNo_info").html('0');
+        };
+        if (invoiceDetail.machineNo != undefined && invoiceDetail.machineNo != null && invoiceDetail.machineNo !== '') {
+            $("#headFlagRight_roll #machineNo_info").html(invoiceDetail.machineNo);
+        };
+        $("#rollInfo #invoiceCode_info").val(invoiceDetail.invoiceCode); // 发票代码
+        $("#rollInfo #invoiceNo_info").val(invoiceDetail.invoiceNo); // 发票号码
+        $("#rollInfo #machineNo_roll").val(invoiceDetail.machineNo); // 机器编码
+        $("#rollInfo #sellerName_roll").val(invoiceDetail.sellerName); // 销方名称
+        $("#rollInfo #sellerTaxNo_roll").val(invoiceDetail.sellerTaxNo); // 销方名称
+        $("#rollInfo #invoicePrintDate_roll").val(invoiceDetail.invoicePrintDate); // 日期
+        $("#rollInfo #receivable_roll").val(invoiceDetail.receivable); // 收款员
+        $("#rollInfo #custName_roll").val(invoiceDetail.custName); // 购方名称
+        $("#rollInfo #custTaxNo_roll").val(invoiceDetail.custTaxNo); // 购方识别号
+        $("#rollInfo #checkCode_roll").val(invoiceDetail.checkCode); // 校验码
+        $("#remark_roll").html(invoiceDetail.remark); // 备注
+        var amount = Number(invoiceDetail.invoiceAmount).toFixed(2);
+        var amountMAX = intToChinese(amount);
+        $("#invoiceAmount_info_max").val(amountMAX);
+        $("#invoiceAmount_info_min").val(amount);
+
+        if (invoiceDetail.invoiceGoods != undefined && invoiceDetail.invoiceGoods != null && invoiceDetail.invoiceGoods !== '' && invoiceDetail.invoiceGoods.length > 0) {
+            var invoiceGoods = $.parseJSON(invoiceDetail.invoiceGoods);
+            var formatHtml = '';
+            for (var i = 0; i < invoiceGoods.length; i++) {
+                var num = i + 1;
+                var includedAmount = (invoiceGoods[i].amount != undefined && invoiceGoods[i].amount != null && invoiceGoods[i].amount !== '') ? Number(invoiceGoods[i].amount).toFixed(2) : '', //金额
+                includedPrice = (invoiceGoods[i].price != undefined && invoiceGoods[i].price != null && invoiceGoods[i].price !== '') ? Number(invoiceGoods[i].price).toFixed(2) : ''; //单价(不补0)
+                formatHtml += '<div class="row inv-itemList">' +
+                        '<div class="inv-itemTitle" style="width: 5%; border-left: none">' + num +'</div>' +
+                        '<div class="inv-itemTitle" style="width: 23%;">' +
+                        '<input type="text" value="' + ((invoiceGoods[i].goodsname != undefined && invoiceGoods[i].goodsname != null && invoiceGoods[i].goodsname !== '') ? invoiceGoods[i].goodsname : '') + '" readonly="readonly" style="border: none; text-align: left; width: 100%; padding: 0 3px; line-height: 1; font-family: inherit; font-size: inherit;">' +
+                        '</div>' +
+                        '<div class="inv-itemTitle" style="width: 22%; ">' +
+                        '<input type="text" value="' + ((invoiceGoods[i].quantity != undefined && invoiceGoods[i].quantity != null && invoiceGoods[i].quantity !== '') ? invoiceGoods[i].quantity : '') + '" readonly="readonly" style="border: none; text-align: left; width: 100%; padding: 0 3px; line-height: 1; font-family: inherit; font-size: inherit;">' +
+                        '</div>' +
+                        '<div class="inv-itemTitle sec_amount amountFlag" style="width: 22%;">' +
+                        '<input type="text" value="' + includedPrice + '" readonly="readonly" style="border: none; text-align: right; width: 100%; padding: 0 3px; line-height: 1; font-family: inherit; font-size: inherit;">' +
+                        '</div>' +
+                        '<div class="inv-itemTitle sec_amount amountFlag" style="width: 23%;">' +
+                        '<input type="text" value="' + includedAmount + '" readonly="readonly" style="border: none; text-align: right; width: 100%; padding: 0 3px; line-height: 1; font-family: inherit; font-size: inherit;">' +
+                        '</div>' +
+                        '<div class="inv-itemTitle" style="width: 5%;border-bottom: none">' +
+                        '<input type="text" value="" readonly="readonly" style="border: none; text-align: right; width: 100%; padding: 0 3px; line-height: 1; font-family: inherit; font-size: inherit;">' +
+                        '</div>' +
+                        '</div>';
+            }
+        };
+        $('.inv-itemContent').html(formatHtml);
+    };
+</script>
+</body>
+</html>

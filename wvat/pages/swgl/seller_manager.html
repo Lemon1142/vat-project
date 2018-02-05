@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>销方信息管理</title>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/ui.jqgrid.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/Bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/FontAwesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/jstree.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/Bootstrap/css/ace.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/custom/css/custom.min.css">
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/departMentTree/css/zTreeStyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" type="text/css" href="../../css/ie.css">
+    <![endif]-->
+
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="../../css/ie8.css">
+    <![endif]-->
+    <style type="text/css">
+        .layui-btn + .layui-btn {
+            margin: 0px
+        }
+        .operation_icon{
+            /*display: inline-block;*/
+            cursor: pointer;
+            width: 13px;
+            height: 13px;
+            margin: 0 4px
+        }
+    </style>
+</head>
+<body class="nav-md" style="background-color: #F7F7F7!important">
+<div class="container body">
+    <div class="main_container">
+        <!-- 主页面page -->
+        <div class="right_col" style="margin-left:0px;padding:0px;">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel" style="padding-bottom:0px;margin-bottom:0px;">
+                        <div class="x_title page-header row" style="padding:0px;margin-top: 0;">
+                            <h2 style="width: 25%">
+                                <ul class="panel_toolbox" style="font-size:18px;float:left;">
+			                        <li>&nbsp;税务信息管理&nbsp;<i class="fa fa-angle-double-right"></i>&nbsp;</li>
+			                        <li>销方信息管理</li>
+                                </ul>
+                            </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li id="LAY_demo">
+	                                <button data-method="btn_query" id="btn_query" class="layui-btn layui-btn-small" style="margin:0px" btnCode="202020">
+						                <i class="fa fa-search" style="vertical-align: middle;"></i>&nbsp;&nbsp;查询
+						            </button>
+	                                <button data-method="btn_add" id="btn_add" class="layui-btn layui-btn-small layui-btn-normal" style="margin:0px" btnCode="202010">
+						                <i class="fa fa-plus" style="vertical-align: middle;"></i>&nbsp;&nbsp;新增
+						            </button>
+                                    <button data-method="btn_expData" id=""
+                                            class="layui-btn layui-btn-small layui-btn-normal" style="margin:0px"
+                                            btnCode='202060'>
+                                        <i class="fa fa-download" style="vertical-align: middle;"></i>&nbsp;&nbsp;导出
+                                    </button>
+                                </li>
+                                <li>&nbsp;</li>
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                <li><a class="close-link" onclick="closeCurrentPage()"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content" style="padding-bottom:0px;">
+                            <div class="page-content" style="white-space:nowrap;padding-left:0px;padding-bottom:0px;">
+                                <form class="form-horizontal" id="searchForm">
+                                    <div class="space-4"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label no-padding-right">
+	                            			<small>销方税号</small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <input type="text" id="search_sellerTaxNo" class="form-control col-sm-12"/>
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>销方名称</small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <input type="text" id="search_sellerName" class="form-control col-sm-12"/>
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>所属行业</small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <select id="search_industry" class="form-control col-sm-12">
+
+                                            </select>
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>有效标志</small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <select id="search_status" class="form-control col-sm-12">
+				                                <option value="">--全部--</option>
+				                                <option value="1">有效</option>
+				                                <option value="0">无效</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="page-content-area col-xs-12 scroll tab-cont" 
+                                	 style="margin-right:-15px;margin-left:-30px;" id="xfgl_queryGrid">
+	                                <table id="xfgl_gridtable"></table>
+	                                <div id="xfgl_pager"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 主页面page 结束-->
+
+<!-- 新增、编辑、查看界面page 开始-->
+<div id="xz_xfgl" style="display: none">
+	<form id="checkForm" class="form-horizontal" role="form" autocomplete="off">
+		<div class="space-4"></div>
+	    <div class="form-group" id="add_modify_tree">
+        	<label for="deptId" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 14%">
+        		<font color="red">*</font>
+        		<small>所属机构</small>
+        	</label>
+			<div class="col-sm-4 add_seller">
+               	<input type="text" id="deptName" name="deptName" class="form-control col-sm-12 organName" style="" 
+               		placeholder=""
+               		onfocus="getOrgTree('xfTree-init','add_seller','','true');"
+                 	onblur="hideTree('xfTree-init')"
+                	onkeyup="clearOrg('add_seller','xz_xfgl');" />
+               	<input type="hidden" id="deptId" name="deptId" value="" class="organId"/>
+               	<div class="xfTree-init style_search col-sm-12" style="display: none;">
+
+               	</div>
+           	</div>
+           	<label for="industry" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 15%">
+           		<font color="red">*</font>
+           		<small>所属行业</small>
+           	</label>
+			<div class="col-sm-4">
+				<select id="industry" class="form-control user-select-item col-sm-12" style="">
+
+				</select>
+			</div>
+		</div>
+		<div class="space-4"></div>
+	    <div class="form-group">
+            <label for="sellerName" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 14%">
+            	<font color="red">* </font>
+            	<small>销方名称</small>
+            </label>
+            <div class="col-sm-4" style="">
+                <input type="text" id="sellerName" name="sellerName" style="" class="form-control col-sm-12" 
+                	placeholder="" maxlength="200" aisinoCheck="{required:true,minlength:1,maxlength:200}" />
+                <input type="hidden" id="id" name="id" style=""/>
+            </div>
+            <label for="sellerTaxNo" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 15%">
+            	<font color="red">* </font>
+            	<small>销方税号</small>
+           	</label>
+            <div class="col-sm-4" style="">
+                <input type="text" id="sellerTaxNo" name="sellerTaxNo" style="" class="form-control col-sm-12 onlyNumAlpha" 
+                	placeholder="" maxlength="21" aisinoCheck="{required:true,minlength:15,maxlength:21}"/>
+            </div>
+	    </div>
+		<div class="space-4"></div>
+	    <div class="form-group">
+            <label for="legalPerson" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 14%">
+            	<small>企业法人</small>
+           	</label>
+            <div class="col-sm-4" style="">
+                <input type="text" id="legalPerson" name="legalPerson" style="" class="form-control col-sm-12" 
+                	placeholder="" maxlength="20" aisinoCheck="{required:false,minlength:1,maxlength:20}"/>
+            </div>
+            <label for="businessAddress" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 15%">
+           		<small>企业经营地址</small>
+           	</label>
+            <div class="col-sm-4" style="">
+                <input type="text" id="businessAddress" name="businessAddress" style="" class="form-control col-sm-12" 
+                	placeholder="" maxlength="200" aisinoCheck="{required:false,minlength:1,maxlength:200}"/>
+            </div>
+	    </div>
+		<div class="space-4"></div>
+	    <div class="form-group">
+            <label for="sellerRegisteredAddress" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 14%">
+            	<small>企业注册地址</small>
+            </label>
+            <div class="col-sm-4" style="">
+                <input type="text" id="sellerRegisteredAddress" name="sellerRegisteredAddress" style="" class="form-control col-sm-12"
+                	placeholder="" maxlength="200" aisinoCheck="{required:false,minlength:1,maxlength:200}" />
+            </div>
+            <label for="telephone" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 15%">
+            	<small>联系电话</small>
+            </label>
+            <div class="col-sm-4" style="">
+                <input type="text" id="telephone" name="telephone" style="" class="form-control col-sm-12" 
+                	placeholder="" maxlength="20" aisinoCheck="{required:false,minlength:1,maxlength:20}"/>
+            </div>
+	    </div>
+		<div class="space-4"></div>
+	    <div class="form-group">
+            <label for="sellerBank" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 14%">
+            	<small>开户银行</small>
+            </label>
+            <div class="col-sm-4" style="">
+                <input type="text" id="sellerBank" name="sellerBank" style="" class="form-control col-sm-12" 
+                	placeholder="" maxlength="200" aisinoCheck="{required:false,minlength:1,maxlength:200}" />
+            </div>
+            <label for="sellerBankAccount" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 15%">
+            	<small>银行账号</small>
+            </label>
+            <div class="col-sm-4" style="">
+                <input type="text" id="sellerBankAccount" name="sellerBankAccount" style="" class="form-control col-sm-12 onlyNum" 
+                	placeholder="" maxlength="50" aisinoCheck="{required:false,minlength:1,maxlength:50}"/>
+            </div>
+	    </div>
+		<div class="space-4"></div>
+	    <div class="form-group">
+            <label for="status" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 14%">
+            	<small>有效标志</small>
+            </label>
+            <div class="col-sm-4">
+                <select id="status" class="form-control col-sm-12">
+                    <option value="1">有效</option>
+                    <option value="0">无效</option>
+                </select>
+            </div>
+	    </div>
+	</form>
+</div>
+<!-- 新增、编辑、查看界面page 结束-->
+
+<!--<script src="../../FrontFrame/jQuery/jquery.min.js"></script>-->
+<script src="../../FrontFrame/jQuery/jquery-1.11.1.min.js"></script>
+<!--[if IE 8]>
+<script src="../../FrontFrame/jQuery/jquery-1.11.1.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+<script src="../../js/upload/jquery.placeholder.min.js"></script>
+<![endif]-->
+
+<!-- bootStrap&jqGrid&jQueryUi -->
+<script src="../../FrontFrame/jQuery/jquery-ui.js"></script>
+<script src="../../FrontFrame/Bootstrap/js/bootstrap.js"></script>
+<script src="../../FrontFrame/jQuery/jquery.jqGrid.src.js"></script>
+<script src="../../FrontFrame/jQuery/grid.locale-cn.js"></script>
+<!-- bootStrap&jqGrid -->
+<script src="../../FrontFrame/layui/layui.js"></script>
+<script src="../../FrontFrame/custom/js/custom.min.js"></script>
+
+<script src="../../js/cookie.min.js"></script>
+<script src="../../js/tools.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/check.js"></script>
+<script src="../../pages/swgl/js/seller_manager.js"></script>
+<!-- Aisino表单校验 -->
+<script src="../../FrontFrame/formValidate/jquery.validate.js"></script>
+<script src="../../FrontFrame/formValidate/jquery.metadata.js"></script>
+<script src="../../FrontFrame/formValidate/messages_cn.js"></script>
+<script src="../../FrontFrame/formValidate/aisino.check.js"></script>
+<!-- Aisino表单校验 -->
+<!--<script src="../../js/bmTree.js"></script>-->
+<!--<script src="../../FrontFrame/jQuery/jquery.ztree.all-3.5.js"></script>-->
+<script src="../../FrontFrame/jQuery/jstree.js"></script>
+<script src="../../FrontFrame/jQuery/jquery.placeholder.js"></script>
+<script src="../../js/commonInfo.js"></script>
+<script>
+    $("#organName1").keydown(function (event) {
+        if(event.keyCode == 8){
+            $("#organName1").blur();
+        }
+    });
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#test1'
+        });
+    })
+</script>
+</body>
+</html>

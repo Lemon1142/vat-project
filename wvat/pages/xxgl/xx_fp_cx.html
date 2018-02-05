@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>销项发票查询</title>
+<link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/ui.jqgrid.css" />
+<link rel="stylesheet" type="text/css" href="../../FrontFrame/Bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+<link rel="stylesheet" type="text/css" href="../../FrontFrame/FontAwesome/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/jstree.css" />
+<link rel="stylesheet" type="text/css" href="../../FrontFrame/Bootstrap/css/ace.min.css" id="main-ace-style" />
+<link rel="stylesheet" type="text/css" href="../../FrontFrame/layui/css/layui.css">
+<!-- Custom Theme Style  -->
+<link rel="stylesheet" type="text/css" href="../../FrontFrame/custom/css/custom.min.css">
+<!--<link rel="stylesheet" href="../../css/zTreeStyle.css"/>-->
+<link rel="stylesheet" type="text/css" href="../../css/common.css">
+<link rel="stylesheet" type="text/css" href="css/xx_fp_cx.css">
+	<!--[if lte IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../css/ie.css">
+	<![endif]-->
+
+	<!--[if IE 8]>
+	<link rel="stylesheet" type="text/css" href="../../css/ie8.css">
+	<![endif]-->
+<style type="text/css">
+.layui-btn+.layui-btn {
+	margin-left: 0px
+}
+</style>
+</head>
+<body style="background-color: #F7F7F7">
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<div class="x_panel" style=" margin: 0px;">
+				<div class="x_title" style="margin: 0px; padding: 0px 0px 0px 0px;">
+					<h2>
+						<ul class="panel_toolbox" style="font-size: 18px; float: left;">
+							<li>&nbsp;销项发票管理&nbsp;<i class="fa fa-angle-double-right"></i>&nbsp;
+							</li>
+							<li>销项发票查询</li>
+						</ul>
+					</h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li id="LAY_demo">
+							<button data-method="btn_query" id="btn_query" class="layui-btn layui-btn-small"
+									style="margin: 0;" btnCode='301010'>
+								<i class="fa fa-search"></i>&nbsp;&nbsp;查询
+							</button>
+							<button data-method="xxfp_btn_expData" id="btn_expData"
+									class="layui-btn layui-btn-small layui-btn-normal" style="margin:0px"
+									btnCode='301020'>
+								<i class="fa fa-download" style="vertical-align: middle;"></i>&nbsp;&nbsp;导出
+							</button>
+						</li>
+						<li>&nbsp;</li>
+						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+						<li><a class="close-link" onclick="closeCurrentPage()">
+							<i class="fa fa-close"></i></a>
+						</li>
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<form class="form-horizontal" id="" autocomplete="off">
+						<div class="space-4"></div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right"
+								for="form-field-1"> <small>所属机构</small>
+							</label>
+							<div class="col-sm-2 search_xf" data-method = "search" >
+	                            <input type="text" id="organName" name="organName" class="form-control col-sm-12 organName"
+	                                   onkeyup="clearOrg('search_xf')"
+	                                   onfocus="getOrgTree('xfTree_init','search_xf','','xxgl')"
+	                                   onblur="hideTree('xfTree_init')" onMouseOver='doSet("search_xf")'/>
+	                            <input type="hidden" id="organId" name="organId" value="" class="organId" />
+	                            <div class="xfTree_init style_search form-control col-sm-12" style=""></div>
+                       		 </div>
+							<label class="col-sm-1 control-label no-padding-right"
+								for="form-field-1"> <small>发票代码</small>
+							</label>
+							<div class="col-sm-2">
+								<input type="text" id="invoiceCode"
+									class="form-control col-sm-12" />
+							</div>
+							<label class="col-sm-1 control-label no-padding-right"> <small>发票号码起</small>
+							</label>
+							<div class="col-sm-2">
+								<input type="text" id="invoiceNoStart"
+									class="form-control col-sm-12" />
+							</div>
+							<label class="col-sm-1 control-label no-padding-right"> <small>发票号码至</small>
+							</label>
+							<div class="col-sm-2">
+								<input type="text" id="invoiceNoEnd"
+									class="form-control col-sm-12" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right"
+								for="form-field-1"> <small>销方税号</small>
+							</label>
+							<div class="col-sm-2">
+								<input type="text" id="sellerTaxNo"
+									class="form-control col-sm-12" />
+							</div>
+							<label class="col-sm-1 control-label no-padding-right"
+								for="form-field-1"> <small>销方名称</small>
+							</label>
+							<div class="col-sm-2">
+								<input type="text" id="sellerName"
+									class="form-control col-sm-12" />
+							</div>
+							<label class="col-sm-1 control-label no-padding-right"> <small>销售单号</small>
+							</label>
+							<div class="col-sm-2">
+								<input type="text" id="billId" class="form-control col-sm-12" />
+							</div>
+							<label class="col-sm-1 control-label no-padding-right"> <small>发票服务商</small></label>
+							<div class="col-sm-2">
+								<select class="form-control col-sm-12" id="source">
+									<option value="">全部</option>
+									<option value="1">百望</option>
+									<option value="2">航信</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right"
+								for="form-field-1"> <small>购方税号</small>
+							</label>
+							<div class="col-sm-2">
+								<input type="text" id="custTaxNo" class="form-control col-sm-12" />
+							</div>
+							<label class="col-sm-1 control-label no-padding-right"
+								for="form-field-1"> <small>购方名称</small>
+							</label>
+							<div class="col-sm-2">
+								<input type="text" id="custName" class="form-control col-sm-12" />
+							</div>
+							<label class="col-sm-1 control-label no-padding-right"> <small>开票日期</small>
+							</label>
+							<div class="col-sm-2">
+								<input type=text id="invoicePrintDate"	class="form-control col-sm-12  layui-input" style="height: 34px"/>
+								<!--<input type=text id="invoicePrintDate"	class="form-control col-sm-12" />-->
+							</div>
+							<label class="col-sm-1 control-label no-padding-right"> <small>发票种类</small>
+							</label>
+							<div class="col-sm-2">
+								<select class="form-control col-sm-12" id="invoiceSort">
+									<option value="">全部</option>
+									<option value="000001">专用发票</option>
+									<option value="000000">普通发票</option>
+									<option value="000002">电子发票</option>
+									<option value="000003">普票卷票</option>
+									<option value="000004">机动车统一销售发票</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right"
+								for="form-field-1"> <small>税率</small>
+							</label>
+							<div class="col-sm-2">
+								<select class="form-control col-sm-12" id="taxRate">
+									<option value="">全部</option>
+									<option value="0">0%</option>
+									<option value="0.03">3%</option>
+									<option value="0.05">5%</option>
+									<option value="0.06">6%</option>
+									<option value="0.11">11%</option>
+									<option value="0.13">13%</option>
+									<option value="0.17">17%</option>
+									<option value="-1">多税率</option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label no-padding-right"> <small>打印标志</small>
+							</label>
+							<div class="col-sm-2">
+								<select class="form-control col-sm-12" id="printFlag">
+									<option value="">全部</option>
+									<option value="0">未打印</option>
+									<option value="1">已打印</option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label no-padding-right"> <small>作废标志</small>
+							</label>
+							<div class="col-sm-2">
+								<select class="form-control col-sm-12" id="cancelFlag">
+									<option value="">全部</option>
+									<option value="1">已作废</option>
+									<option value="0">未作废</option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label no-padding-right"
+								for="form-field-1"> <small>报送状态</small>
+							</label>
+							<div class="col-sm-2">
+								<select class="form-control col-sm-12" id="submitStatus">
+									<option value="">全部</option>
+									<option value="0">未报送</option>
+									<option value="1">已报送</option>
+									<option value="2">报送失败</option>
+									<option value="3">报送中</option>
+									<option value="4">验签失败</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label no-padding-right"
+								for="form-field-1"> <small>清单标志</small>
+							</label>
+							<div class="col-sm-2">
+								<select class="form-control col-sm-12" id="listFlag">
+									<option value="">全部</option>
+									<option value="0">无清单</option>
+									<option value="1">有清单</option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label no-padding-right"> <small>红票状态</small></label>
+							<div class="col-sm-2">
+								<select class="form-control col-sm-12" id="invoiceType">
+									<option value="">全部</option>
+									<option value="0">未冲红</option>
+									<option value="1">已冲红</option>
+								</select>
+							</div>
+							<div id="xxfpcxtj_billingNo">
+							<label  class="col-sm-1 control-label no-padding-right"> <small>开票点</small></label>
+							<div class="col-sm-2">
+								<select class="form-control col-sm-12" id="billingNo">
+								</select>
+							</div>
+							</div>
+						</div>
+					</form>
+					</div>
+					<div class="page-content-area">
+						<div class="row">
+							<div class="col-xs-12">
+								<div id="wwdz_queryGrid" class="scroll tab-cont">
+									<table id="facx_gridtable" class="table2excel"></table>
+									<div id="wwdz_pager"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+	<!--拆分账单列表-->
+	<div class="page-content-area col-xs-12 scroll tab-cont" id='bill_list' style="display: none;">
+		<table id="billList_gridtable"></table>
+	</div>
+	<!--发票图片-->
+	<div id="fp_url" style="display: none;">
+		<div class="space-4"></div>
+		<div id="add_modify_tree " class="form-group">
+			<div class="row" style="margin: auto;">
+			  <div class="col-md-12 col-sm-12 col-xs-12">
+			      <div class="x_panel" style="font-size: 12px; margin: 0; padding: 0px 15px;">
+			          <div id="pdfPath1">
+		          		<img src="" style="width: 100%; height: 100%;" />
+			          </div>
+			      </div>
+			  </div>
+			</div>
+		</div>
+	</div>
+	<!-- 查看图片链接 -->
+	<div id="billList_url" style="display: none;">
+		<div class="space-4"></div>
+		<div id="add_modify_bill" class="form-group">
+			<div class="row" style="margin: auto;">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<div class="x_panel" style="font-size: 12px; margin: 0; padding: 0px 15px;">
+						<div id="pdfPath1_bill">
+							<img src="" style="" />
+						</div>
+						<div id='modal-body' style='font-size: 15px;line-height: 2'>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--<script src="../../FrontFrame/jQuery/jquery.min.js"></script>-->
+	<script src="../../FrontFrame/jQuery/jquery-1.11.1.min.js"></script>
+	<!--[if lte IE 9]>
+	<script src="../../FrontFrame/jQuery/jquery-1.11.1.min.js"></script>
+	<script src="../../FrontFrame/Bootstrap/js/html5shiv.js"></script>
+	<script src="../../FrontFrame/Bootstrap/js/respond.min.js"></script>
+	<![endif]-->
+
+	<!-- bootStrap&jqGrid&jQueryUi -->
+	<script src="../../FrontFrame/jQuery/jquery-ui.js"></script>
+	<script src="../../FrontFrame/Bootstrap/js/bootstrap.js"></script>
+	<script src="../../FrontFrame/jQuery/jquery.jqGrid.src.js"></script>
+	<script src="../../FrontFrame/jQuery/grid.locale-cn.js"></script>
+	<!-- bootStrap&jqGrid -->
+
+	<script src="../../FrontFrame/layui/layui.js"></script>
+	<script src="../../FrontFrame/custom/js/custom.min.js"></script>
+	<script src="../../js/tools.js"></script>
+	<script src="../../js/config.js"></script>
+	<script src="../../js/MathContext.js"></script>
+	<script src="../../js/BigDecimal.js"></script>
+	<script src="../../js/MathCount.js"></script>
+	<script src="../../js/cookie.min.js"></script>
+	<script src="../../js/common.js"></script>
+	<!--<script src="../../common/js/commonBill.js"></script>-->
+	<script src="js/xx_fp_cx.js"></script>
+	<!-- Aisino表单校验 -->
+	<script src="../../FrontFrame/formValidate/jquery.validate.js"></script>
+	<script src="../../FrontFrame/formValidate/jquery.metadata.js"></script>
+	<script src="../../FrontFrame/formValidate/messages_cn.js"></script>
+	<script src="../../FrontFrame/formValidate/aisino.check.js"></script>
+	<!-- Aisino表单校验 -->
+	<script src="../../FrontFrame/jQuery/jstree.js"></script>
+	<script src="../../FrontFrame/jQuery/jquery.placeholder.js"></script>
+	<script src="../../js/commonInfo.js"></script>
+	<script>
+		$(".search_xf #organName").keydown(function (event) {
+			if(event.keyCode == 8){
+				$(".search_xf #organName").blur();
+			}
+		});
+		layui.use('form', function () {
+
+		});
+	</script>
+</body>
+</html>

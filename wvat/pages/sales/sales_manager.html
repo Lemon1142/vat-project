@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>账单查询</title>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/ui.jqgrid.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/Bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/FontAwesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/jstree.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/Bootstrap/css/ace.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/custom/css/custom.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/sale_manager.css">
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" type="text/css" href="../../css/ie.css">
+    <![endif]-->
+
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="../../css/ie8.css">
+    <![endif]-->
+    <style type="text/css">
+        .layui-btn + .layui-btn {
+            margin: 0px
+        }
+        #gview_list_gridtable .ui-jqgrid-bdiv{
+            overflow-x: hidden;
+        }
+        .placeholder{
+            color: #73879c;
+        }
+        #billCode img{
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="nav-md" style="background-color: #F7F7F7!important">
+<div class="container body">
+    <div class="main_container">
+        <!-- 主页面page -->
+        <div class="right_col" style="margin-left:0px;padding:0px;">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel" style="padding-bottom:0px;margin-bottom:0px;">
+                        <div class="x_title page-header row" style="margin-top: 0;padding:0px;">
+                            <h2 style="width: 25%">
+                                <ul class="panel_toolbox" style="font-size:18px;float:left;">
+                                    <!--<li>首页&nbsp;<i class="fa fa-angle-double-right"></i></li>-->
+                                    <li>&nbsp;账单管理&nbsp;<i class="fa fa-angle-double-right"></i>&nbsp;</li>
+                                    <li>账单查询
+                                    </li>
+                                </ul>
+                            </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <!--<li id="yhgl_btn">-->
+                                <li id="LAY_demo">
+                                    <button data-method="bill_query" class="layui-btn layui-btn-small"
+                                            style="margin-bottom: 0;margin-right: 0" btnCode = '501010'>
+                                        <i class="fa fa-search"></i>&nbsp;<big>查询</big>
+                                    </button>
+                                    <button data-method="bill_expData" id="btn_expData"
+                                            class="layui-btn layui-btn-small layui-btn-normal" style="margin:0px"
+                                            btnCode='501020'>
+                                        <i class="fa fa-download" style="vertical-align: middle;"></i>&nbsp;&nbsp;导出
+                                    </button>
+                                </li>
+                                <li>&nbsp;</li>
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                <li><a class="close-link" onclick="closeCurrentPage()"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content" style="padding-bottom:0px;">
+                            <div class="page-content" style="white-space:nowrap;padding-left:0px;padding-bottom:0px;" id="criteria">
+                                <form class="form-horizontal" autocomplete="off">
+                                    <div class="space-4"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <font color="red" style="padding-right: 0">* </font>
+                                            <small>所属机构 </small>
+                                        </label>
+                                        <div class="col-sm-2 search_bill" data-method="search">
+                                            <input type="text" id="organName1" name="organName" style="" value=''
+                                                   class="form-control col-sm-12 organName"
+                                                   onfocus="getOrgTree('style_search','search_bill','','')"
+                                                   onblur="hideTree('style_search')" onMouseOver='doSet("search_bill")'>
+                                            <input type="hidden" id="organId1" name="organId" value="" class="organId"/>
+                                            <div class="style_search user_init col-sm-12" style="">
+
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>销售时间</small>
+                                        </label>
+                                        <div class="col-sm-2 layui-input-inline">
+                                            <!--<input type="text" id="bill_saletime" class="form-control col-sm-12"/>-->
+                                            <input type=text id="bill_saletime"	class="bill_saletime saleFlag col-sm-12  layui-input"
+                                                   style="height: 34px" placeholder="yyyy-MM-dd HH:mm:ss ~ yyyy-MM-dd HH:mm:ss"/>
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>小票流水号 </small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <input type="text" id="serialNumbe" class="form-control col-sm-12"/>
+                                        </div>
+
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>终端设备 </small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <input type="text" id="bill_equipment" class="form-control col-sm-12"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-top: 12px">
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>拆分标识 </small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <!--<input type="text" id="bill_stasus" class="form-control col-sm-12"/>-->
+                                            <select class="form-control col-sm-12" id="split_identifier">
+                                                <option value="">全部</option>
+                                                <option value="N">未处理</option>
+                                                <option value="Y">已合并</option>
+                                                <option value="C">已拆分</option>
+                                            </select>
+                                        </div>
+
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>开票状态 </small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <!--<input type="text" id="bill_stasus" class="form-control col-sm-12"/>-->
+                                            <select class="form-control col-sm-12" id="bill_stasus">
+                                                <option value="">全部</option>
+                                                <option value="1">已开票</option>
+                                                <option value="0">未开票</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>账单类型 </small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <select class="form-control col-sm-12" id="bill_style">
+                                                <option value="">全部</option>
+                                                <option value="1">结账单</option>
+                                                <option value="2">预结单</option>
+                                                <option value="3">日结单</option>
+                                                <option value="7">点菜单</option>
+                                            </select>
+                                        </div>
+                                        <div class="isInvoice" style="">
+                                            <label class="col-sm-1 control-label no-padding-right">
+                                                <small>开票时间</small>
+                                            </label>
+                                            <div class="col-sm-2 layui-input-inline">
+                                                <!--<input type="text" id="bill_saletime" class="form-control col-sm-12"/>-->
+                                                <input type=text id="invoiceTime"
+                                                       class="bill_saletime col-sm-12 layui-input"
+                                                       style="height: 34px" placeholder="yyyy-MM-dd HH:mm:ss ~ yyyy-MM-dd HH:mm:ss"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="page-content-area col-xs-12 scroll bill-cont"
+                                     style="margin-right:-15px;margin-left:-30px;">
+                                    <table id="bill_gridtable"></table>
+                                    <div id="bill_pager"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 主页面page -->
+    </div>
+</div>
+<!--拆分列表-->
+<div class="page-content-area col-xs-12 scroll bill-cont" id='billList' style="display: none;">
+    <table id="list_gridtable"></table>
+</div>
+<!-- 查看图片链接 -->
+<div id="bill_url" style="display: none;">
+    <div class="space-4"></div>
+    <div id="add_modify_tree " class="form-group">
+        <div class="row" style="margin: auto;">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel" style="font-size: 12px; margin: 0; padding: 0px 15px;">
+                    <div id="pdfPath1">
+                        <!--<img src="" style="width: 100%; height: 100%;" />-->
+                        <img src="" style="" />
+                    </div>
+                    <div id='modal-body' style='font-size: 15px;line-height: 2'>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--发票链接-->
+<div id="fp_url" style="display: none;">
+    <div class="space-4"></div>
+    <div id="add_modify_tree1 " class="form-group">
+        <div class="row" style="margin: auto;">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel" style="font-size: 12px; margin: 0; padding: 0px 15px;">
+                    <div id="pdfPath">
+                        <img src="" style="width: 100%; height: 100%;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-content-area col-xs-12 scroll bill-cont" id='billCode' style="display: none;padding-top: 20px">
+</div>
+<script src="../../FrontFrame/jQuery/jquery-1.11.1.min.js"></script>
+<!--[if IE 8]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../../FrontFrame/jQuery/jquery-1.11.1.min.js'>" + "<" + "/script>");
+</script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+<script src="../../FrontFrame/jQuery/jquery.placeholder.js"></script>
+<![endif]-->
+
+<!-- bootStrap&jqGrid&jQueryUi -->
+<script src="../../FrontFrame/jQuery/jquery-ui.js"></script>
+<script src="../../FrontFrame/Bootstrap/js/bootstrap.js"></script>
+<script src="../../FrontFrame/jQuery/jquery.jqGrid.src.js"></script>
+<script src="../../FrontFrame/jQuery/grid.locale-cn.js"></script>
+<!-- bootStrap&jqGrid -->
+<script src="../../FrontFrame/layui/layui.js"></script>
+<script src="../../FrontFrame/custom/js/custom.min.js"></script>
+<script src="../../js/kpglMx.js"></script>
+<script src="../../js/md5.js"></script>
+<script src="../../js/tools.js"></script>
+<script src="../../js/config.js"></script>
+<!--<script src="../../js/MathContext.js"></script>-->
+<!--<script src="../../js/BigDecimal.js"></script>-->
+<!--<script src="../../js/MathCount.js"></script>-->
+<script src="../../js/cookie.min.js"></script>
+<script src="../../FrontFrame/jQuery/jstree.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../FrontFrame/jQuery/qrcode.js"></script>
+<script src="js/sales_manager.js"></script>
+<script src="../../js/commonInfo.js"></script>
+
+<script>
+    $("#organName1").keydown(function (event) {
+        if(event.keyCode == 8){
+            $("#organName1").blur();
+        }
+    });
+</script>
+</body>
+
+</html>

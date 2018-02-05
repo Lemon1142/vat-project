@@ -1,0 +1,40 @@
+﻿@charset "utf-8";
+/* CSS Document */
+/*登陆页BTN*/
+/*a.btn-Login, a.btn-register {*/
+	/*width: 235px;*/
+/*}*/
+/*.loginCenter-moudleRight A.moudle1.loginCenter-moudle1.loginCenter-mStyle {*/
+	/*padding-top: 0px;*/
+/*}*/
+/*.loginCenter-moudleRight A.moudle2.loginCenter-moudle2.loginCenter-mStyle {*/
+	/*padding-top: 0px;*/
+/*}*/
+/*.loginCenter-moudleRight A.moudle3.loginCenter-moudle3.loginCenter-mStyle {*/
+	/*padding: 0px;*/
+/*}*/
+.col-sm-1 {
+	width: 8.33333333%;
+}
+
+.col-sm-2 {
+	width: 16.66666667%;
+}
+
+.col-sm-3 {
+	width: 25%;
+}
+
+.col-sm-4 {
+	width: 33.33333333%;
+}
+.col-md-6{
+	width: 50%;
+}
+.col-sm-12{
+	width: 100%;
+}
+
+.form-horizontal .control-label {
+	text-align: right;
+}

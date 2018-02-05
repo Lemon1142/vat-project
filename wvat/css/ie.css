@@ -1,0 +1,89 @@
+@charset "utf-8";
+/* CSS Document */
+/*登陆页*/
+.loginCenter-moudleRight a.moudle1.loginCenter-moudle1.loginCenter-mStyle{padding-top:0px;}
+.loginCenter-moudleRight a.moudle2.loginCenter-moudle2.loginCenter-mStyle{padding-top:0px;}
+.loginCenter-moudleRight a.loginCenter-moudle3.loginCenter-mStyle span.moudle-text{margin-top:0px;}
+.loginCenter-moudleRight a.moudle3.loginCenter-moudle3.loginCenter-mStyle{padding-top:0px;}
+.loginCenter-moudleRight a.moudle3.loginCenter-moudle3.loginCenter-mStyle span.moudle-text{top:-7px;}
+a.btn-Login, a.btn-register {
+	width: 235px;
+}
+
+@font-face {
+	/*font-family: 'Aller';*/
+	/*src: url('../FrontFrame/Bootstrap/fonts/glyphicons-halflings-regular.eot');*/
+	/*src: url('../FrontFrame/Bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),*/
+	/*url('../FrontFrame/Bootstrap/fonts/glyphicons-halflings-regular.woff') format('woff'),*/
+	/*url('../FrontFrame/Bootstrap/fonts/glyphicons-halflings-regular.ttf') format('truetype'),*/
+	/*url('../FrontFrame/Bootstrap/fonts/glyphicons-halflings-regular.svg#AllerRegular') format('svg');*/
+	/*font-weight: normal;*/
+	/*font-style: normal;*/
+	font-family: 'FontAwesome';
+	src: url('../FrontFrame/FontAwesome/fonts/fontawesome-webfont.eot'); /* IE9 Compat Modes */
+	src: url('../FrontFrame/FontAwesome/fonts/fontawesome-webfont.eot?#iefix') format('embedded-opentype');/* IE6-IE8 */
+	url('../FrontFrame/FontAwesome/fonts/fontawesome-webfont.woff') format('woff'), /* Modern Browsers */
+	url('../FrontFrame/FontAwesome/fonts/fontawesome-webfont.ttf') format('truetype'), /* Safari, Android, iOS */
+	url('../FrontFrame/FontAwesome/fonts/fontawesome-webfont.svg#fontawesomeregular') format('svg'); /* Legacy iOS */
+	font-weight: normal;
+	font-style: normal;
+}
+/*底部栏*/
+.ui-pg-table > tbody > tr > .ui-pg-button > .ui-icon{
+	display: inline-block;
+	padding: 0;
+	width: 24px;
+	height: 24px;
+	line-height: 22px;
+	text-align: center;
+	position: static;
+	float: none;
+	margin: 0 2px !important;
+	color: gray;
+	border: 1px solid #CCC;
+	background-color: #fff;
+	border-radius: 100%;
+}
+.ui-pg-table > tbody > tr > .ui-pg-button > .ui-icon:before{
+	width: 20px;
+	text-align: center;
+	display: inline-block;
+}
+.fa-angle-right:before{
+	content: "\f105";
+}
+
+.ui-pg-table > tbody > tr > .ui-pg-button.ui-state-disabled .ui-icon{
+	color: #B0B0B0;
+	background-color: #f7f7f7;
+	border-color: #DDD;
+	transform: scale(0.9);
+}
+.ui-icon{
+	text-indent: 0!important;
+}
+.ui-jqgrid .ui-pg-input{
+	font-size: inherit;
+	width: 24px;
+	height:20px;
+	line-height: 16px;
+	box-sizing: content-box;
+	text-align: center;
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+.ui-jqgrid .ui-pg-selbox{
+	display: block;
+	height: 24px;
+	width: 60px;
+	margin: 0;
+	padding: 1px;
+	line-height: normal;
+}
+input[type=text]{
+	color: #939192!important;
+}
+.ui-jqgrid .ui-jqgrid-view, .ui-jqgrid .ui-paging-info, .ui-jqgrid .ui-pg-selbox, .ui-jqgrid .ui-pg-table{
+	font-size: 13px;
+}
+

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>销项发票报表</title>
+
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/ui.jqgrid.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/Bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/FontAwesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/jstree.css"/>
+	<link rel="stylesheet" type="text/css" href="../../FrontFrame/Bootstrap/css/ace.min.css" id="main-ace-style"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/layui/css/layui.css">
+    <!-- Custom Theme Style  -->
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/custom/css/custom.min.css">
+    <!--<link rel="stylesheet" href="../../css/zTreeStyle.css"/>-->
+	<link rel="stylesheet" type="text/css" href="../../css/common.css">
+	<!--[if lte IE 9]>
+	<link rel="stylesheet" type="text/css" href="../../css/ie.css">
+	<![endif]-->
+
+	<!--[if IE 8]>
+	<link rel="stylesheet" type="text/css" href="../../css/ie8.css">
+	<![endif]-->
+	<style>
+		#xxfp_slvrep_queryGrid,#xxfp_ztrep_queryGrid{
+			overflow-x: auto;
+		}
+		#xxfp_slvrep_queryGrid #gview_xxfp_slvrep_gridtable,#xxfp_ztrep_queryGrid #gview_xxfp_ztrep_gridtable{
+			overflow-x: auto;
+		}
+	</style>
+</head>
+<body style="background-color: #F7F7F7">
+<div class="row">
+	<div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="x_panel r_panel" style="margin:0px;">
+
+			<div class="x_title" style="margin:0px;padding:0px 0px 0px 0px;">
+				<h2>
+					<ul class="panel_toolbox" style="font-size:18px;float:left;">
+						<li>&nbsp;销项发票管理&nbsp;<i class="fa fa-angle-double-right"></i>&nbsp;</li>
+						<li>销项发票报表</li>
+					</ul>
+				</h2>
+				<ul class="nav navbar-right panel_toolbox">
+					<li id="LAY_demo">
+						<button data-method="xxfp_btn_tjData" id="btn_tj" class="layui-btn layui-btn-small"
+								style="margin:0px" btnCode='303010'>
+							<i class="fa fa-bar-chart" style="vertical-align: middle;"></i>&nbsp;&nbsp;统计
+						</button>
+						<button data-method="btn_expData" id=""
+								class="layui-btn layui-btn-small layui-btn-normal" style="margin:0px"
+								btnCode='303020'>
+							<i class="fa fa-download" style="vertical-align: middle;"></i>&nbsp;&nbsp;导出
+						</button>
+					</li>
+					<li>&nbsp;</li>
+					<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+					<!--<li>&nbsp;</li>-->
+					<li><a class="close-link" onclick="closeCurrentPage()">
+						<i class="fa fa-close"></i></a>
+					</li>
+				</ul>
+				<div class="clearfix"></div>
+			</div>
+			<div id="layTabDiv" class="layui-tab layui-tab-card" lay-filter="filterTabDiv">
+				<ul class="layui-tab-title" id="layTabTitle">
+					<li class="layui-this"><i class="fa fa-line-chart">&nbsp;&nbsp;</i>按税率统计&nbsp;&nbsp;</li>
+					<li><i class="fa fa-newspaper-o">&nbsp;&nbsp;</i>按发票状态统计&nbsp;&nbsp;</li>
+				</ul>
+				<div class="layui-tab-content">
+					<div id="xxfp_report_slv_item" class="layui-tab-item layui-show">
+						<div id="xxfp_report_slv_form" class="x_content">
+							<form class="form-horizontal" autocomplete="off">
+								<div class="space-4"></div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+										<small>所属机构</small>
+									</label>
+									<div class="col-sm-2 search_slvrepTree" data-method="search">
+										<input type="text" id="slvrep_organName" name="slvrep_organName"
+											   class="form-control col-sm-12 organName"
+											   onkeyup="clearOrg('search_slvrepTree')"
+											   onfocus="getOrgTree('slvrepTree_init','search_slvrepTree')"
+											   onblur="hideTree('slvrepTree_init')" onMouseOver='doSet("search_slvrepTree")'/>
+										<input type="hidden" id="slvrep_deptId" name="organId" value=""
+											   class="organId"/>
+										<div class="slvrepTree_init style_search common_jg form-control col-sm-12" style=""></div>
+									</div>
+									<label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+										<small>统计月份起</small>
+									</label>
+									<div class="col-sm-2">
+										<input type="text" id="xxfp_slvrep_col_tjyfq" placeholder=""
+											   class="form-control col-sm-12 laydateCon-item start_time" placeholder="yyyy-MM"/>
+									</div>
+									<label class="col-sm-1 control-label no-padding-right">
+										<small>统计月份止</small>
+									</label>
+									<div class="col-sm-2">
+										<input type="text" id="xxfp_slvrep_col_tjyfz"
+											   class="form-control col-sm-12 laydateCon-item" placeholder="yyyy-MM"/>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="page-content-area">
+							<div class="row">
+								<div class="col-xs-12">
+									<div id="xxfp_slvrep_queryGrid" class="scroll">
+										<table id="xxfp_slvrep_gridtable"></table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="xxfp_report_zt_item" class="layui-tab-item">
+						<div id="xxfp_report_zt_form" class="x_content">
+							<form class="form-horizontal" autocomplete="off">
+								<div class="space-4"></div>
+								<div class="form-group">
+									<label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+										<small>所属机构 </small>
+									</label>
+									<div class="col-sm-2 search_ztrepTree" data-method="search">
+										<input type="text" id="ztrep_organName" name="ztrep_organName"
+											   class="form-control col-sm-12 organName"
+											   onkeyup="clearOrg('search_ztrepTree')"
+											   onfocus="getOrgTree('ztrepTree_init','search_ztrepTree')"
+											   onblur="hideTree('ztrepTree_init')" onMouseOver='doSet("search_ztrepTree")'/>
+										<input type="hidden" id="ztrep_deptId" name="organId" value="" class="organId"/>
+										<div class="ztrepTree_init style_search common_jg form-control col-sm-12" style=""></div>
+									</div>
+									<label class="col-sm-1 control-label no-padding-right" for="form-field-1">
+										<small>统计月份起</small>
+									</label>
+									<div class="col-sm-2">
+										<input type="text" id="xxfp_ztrep_col_tjyfq"
+											   class="form-control col-sm-12 laydateCon-item start_time" placeholder="yyyy-MM"/>
+									</div>
+									<label class="col-sm-1 control-label no-padding-right">
+										<small>统计月份止</small>
+									</label>
+									<div class="col-sm-2">
+										<input type="text" id="xxfp_ztrep_col_tjyfz"
+											   class="form-control col-sm-12 laydateCon-item" placeholder="yyyy-MM"/>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="page-content-area">
+							<div class="row">
+								<div class="col-xs-12">
+									<div id="xxfp_ztrep_queryGrid" class="scroll">
+										<table id="xxfp_ztrep_gridtable"></table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--<script src="../../FrontFrame/jQuery/jquery.min.js"></script>-->
+<script src="../../FrontFrame/jQuery/jquery-1.11.1.min.js"></script>
+<!--[if IE 8]>
+<script type="text/javascript">
+	window.jQuery || document.write("<script src='../../FrontFrame/jQuery/jquery-1.11.1.min.js'>" + "<" + "/script>");
+</script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+<script src="../../js/upload/jquery.placeholder.min.js"></script>
+<![endif]-->
+
+<!-- bootStrap&jqGrid&jQueryUi -->
+<script src="../../FrontFrame/jQuery/jquery-ui.js"></script>
+<script src="../../FrontFrame/Bootstrap/js/bootstrap.js"></script>
+<script src="../../FrontFrame/jQuery/jquery.jqGrid.src.js"></script>
+<script src="../../FrontFrame/jQuery/grid.locale-cn.js"></script>
+<!-- bootStrap&jqGrid -->
+
+<script src="../../FrontFrame/layui/layui.js"></script>
+<script src="../../FrontFrame/custom/js/custom.min.js"></script>
+<script src="../../js/tools.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/cookie.min.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../FrontFrame/jQuery/jstree.js"></script>
+<script src="../../pages/xxgl/js/xxfp_report.js"></script>
+
+<SCRIPT type="text/javascript">
+$("#slvrep_organName").keydown(function (event) {
+    if(event.keyCode == 8){
+        $("#slvrep_organName").blur();
+    }
+})
+$("#ztrep_organName").keydown(function (event) {
+    if(event.keyCode == 8){
+        $("#ztrep_organName").blur();
+    }
+})
+</SCRIPT>
+
+</body>
+</html>

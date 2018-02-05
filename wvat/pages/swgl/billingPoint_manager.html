@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>开票点管理</title>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/jquery-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/ui.jqgrid.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/Bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/FontAwesome/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/jQuery/css/jstree.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/Bootstrap/css/ace.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/custom/css/custom.min.css">
+    <link rel="stylesheet" type="text/css" href="../../FrontFrame/departMentTree/css/zTreeStyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common.css">
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" type="text/css" href="../../css/ie.css">
+    <![endif]-->
+
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="../../css/ie8.css">
+    <![endif]-->
+    <style type="text/css">
+        .layui-btn + .layui-btn {
+            margin: 0px
+        }
+        .operation_icon{
+            /*display: inline-block;*/
+            cursor: pointer;
+            width: 13px;
+            height: 13px;
+            margin: 0 4px
+        }
+        #xz_sellerUpload .layui-tab-item tr>td{
+            padding-top: 10px;
+        }
+        #xz_sellerUpload .layui-tab-item tr>td>label{
+            font-size: 16px;
+        }
+        ::-webkit-input-placeholder { /* WebKit browsers */
+            　color:#999;
+         }
+        :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            color:#999;
+        }
+        ::-moz-placeholder { /* Mozilla Firefox 19+ */
+            color:#999;
+        }
+        :-ms-input-placeholder { /* Internet Explorer 10+ */
+            color:#999;
+        }
+        #xz_sellerUpload .layui-tab-item > table{
+            width: 300px;
+        }
+        .placeholder{
+            color: #73879c;
+        }
+    </style>
+</head>
+<body class="nav-md" style="background-color: #F7F7F7!important">
+<div class="container body">
+    <div class="main_container">
+        <!-- 主页面page -->
+        <div class="right_col" style="margin-left:0px;padding:0px;">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel" style="padding-bottom:0px;margin-bottom:0px;">
+                        <div class="x_title page-header row" style="padding:0px;margin-top: 0;">
+                            <h2 style="width: 25%">
+                                <ul class="panel_toolbox" style="font-size:18px;float:left;">
+			                        <li>&nbsp;税务信息管理&nbsp;<i class="fa fa-angle-double-right"></i>&nbsp;</li>
+                       				<li>开票点管理</li>
+                                </ul>
+                            </h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li id="LAY_demo">
+                                    <button data-method="btn_query" id="btn_query" class="layui-btn layui-btn-small" btnCode="201020" style="margin:0px">
+						                <i class="fa fa-search" style="vertical-align: middle;"></i>&nbsp;&nbsp;查询
+						            </button>
+	                                <button data-method="btn_add" id="btn_add" class="layui-btn layui-btn-small layui-btn-normal" btnCode="201010" style="margin:0px">
+						                <i class="fa fa-plus" style="vertical-align: middle;" ></i>&nbsp;&nbsp;新增
+						            </button>
+			                        <button data-method="btn_delete" id="btn_delete" class="layui-btn layui-btn-small layui-btn-danger" btnCode="201040" style="margin:0px">
+			                            <i class="fa fa-trash" style="vertical-align: middle;"></i>&nbsp;&nbsp;删除
+			                        </button>
+                                    <button data-method="btn_expData" id=""
+                                            class="layui-btn layui-btn-small layui-btn-normal" style="margin:0px"
+                                            btnCode='201060'>
+                                        <i class="fa fa-download" style="vertical-align: middle;"></i>&nbsp;&nbsp;导出
+                                    </button>
+                                </li>
+                                <li>&nbsp;</li>
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                <li><a class="close-link" onclick="closeCurrentPage()"><i class="fa fa-close"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content" style="padding-bottom:0px;">
+                            <div class="page-content" style="white-space:nowrap;padding-left:0px;padding-bottom:0px;">
+                                <form class="form-horizontal" id="searchForm">
+                                    <div class="space-4"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label no-padding-right">
+	                            			<small>销方税号</small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <input type="text" id="sellerTaxNo" class="form-control col-sm-12"/>
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>开票点名称</small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <input type="text" id="billingPointName" class="form-control col-sm-12"/>
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">
+                                            <small>开关状态</small>
+                                        </label>
+                                        <div class="col-sm-2">
+                                            <select id="lockStatus" class="form-control col-sm-12">
+				                                <option value="">--全部--</option>
+				                                <option value="Y">开启</option>
+				                                <option value="N">关闭</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="page-content-area col-xs-12 scroll tab-cont"
+                                     style="margin-right:-15px;margin-left:-30px;" id="kpdgl_queryGrid">
+                                    <table id="kpdgl_gridtable"></table>
+                                    <div id="kpdgl_pager"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 主页面page -->
+    </div>
+</div>
+<!-- 新增、编辑、查看界面page 开始-->
+<div id="xz_kpdgl" class="center" style="display: none" >
+	<form id="checkForm" class="form-horizontal" role="form" autocomplete="off">
+		<div class="space-4"></div>
+	    <div class="form-group" id="add_modify_tree">
+        	<label for="deptId" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 14%">
+        		<font color="red">*</font>
+        		<small>所属机构</small>
+        	</label>
+			<div class="col-sm-4 add_billingPonit" style="position: relative;">
+               	<input type="text" id="deptName" name="deptName" class="form-control col-sm-12 organName" style="" 
+               		placeholder=""
+               		onfocus="getOrgTree('kpdTree-init','add_billingPonit','xz_kpdgl','true');"
+             		onblur="hideTree('kpdTree-init')"
+                	onkeyup="clearOrg('add_billingPonit','xz_kpdgl');" aisinoCheck="{required:true}"/>
+               	<input type="hidden" id="deptId" name="deptId" value="" class="organId"/>
+               	<div class="kpdTree-init style_search col-sm-12" style="display: none;">
+
+               	</div>
+           	</div>
+            <label for="billingNo" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 15%">
+            	<font color="red">* </font>
+            	<small>开票机号</small>
+            </label>
+            <div class="col-sm-4" style="">
+                <input type="text" id="billingNo" name="billingNo" style="" class="form-control col-sm-12 onlyNum" 
+                	placeholder="" maxlength="2" aisinoCheck="{required:true,minlength:1,maxlength:2}"
+                	onkeyup="value=value.replace(/[^\d]/g,'')"/>
+                <input type="hidden" id="id" name="id" style=""/>
+            </div>
+  		</div>
+		<div class="space-4"></div>
+	    <div class="form-group">
+            <label for="sellerTaxNo" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 14%">
+            	<font color="red">* </font>
+            	<small>销方税号</small>
+           	</label>
+            <div class="col-sm-4" style="">
+                <input type="text" id="sellerTaxNo" name="sellerTaxNo" style="" class="form-control col-sm-12 mparentTaxNo mtaxNo" 
+                	placeholder="" maxlength="21" aisinoCheck="{required:true,minlength:15,maxlength:21}"/>
+            </div>
+            <label for="billingPointName" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 15%">
+            	<font color="red">* </font>
+            	<small>开票点</small>
+            </label>
+            <div class="col-sm-4" style="">
+                <input type="text" id="billingPointName" name="billingPointName" style="" class="form-control col-sm-12" 
+                	placeholder="" maxlength="200" aisinoCheck="{required:true,minlength:1,maxlength:200}" />
+            </div>
+	    </div>
+		<div class="space-4"></div>
+	    <div class="form-group">
+            <label for="sellerName" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 14%">
+            	<font color="red">* </font>
+            	<small>销方名称</small>
+           	</label>
+            <div class="col-sm-4" style="">
+                <input type="text" id="sellerName" name="sellerName" style="" class="form-control col-sm-12" 
+                	placeholder="" aisinoCheck="{required:false}"/>
+            </div>
+            <label for="billingPointNum" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 15%">
+            	<font color="red">* </font>
+            	<small>开票点编号</small>
+            </label>
+            <div class="col-sm-4" style="">
+                <input type="text" id="billingPointNum" name="billingPointNum" style="" class="form-control col-sm-12 onlyNum" 
+                	placeholder="" maxlength="32" aisinoCheck="{required:true,minlength:1,maxlength:32}" 
+                	onkeyup="value=value.replace(/[^\d]/g,'')" />
+            </div>
+	    </div>
+		<div class="space-4"></div>
+	    <div class="form-group">
+            <label for="lockStatus" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 14%">
+            	<small>开关状态</small>
+            </label>
+            <div class="col-sm-4">
+                <select id="lockStatus" class="form-control col-sm-12">
+                   	<option value="Y">开启</option>
+                    <option value="N">关闭</option>
+                </select>
+            </div>
+            <label for="macEquipment" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 15%">
+                <small>设备mac地址</small>
+            </label>
+            <div class="col-sm-4">
+                <select id="macEquipment" class="form-control col-sm-12">
+
+                </select>
+            </div>
+	    </div>
+        <div class="space-4"></div>
+        <div class="form-group">
+            <label for="lockStatus" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 14%">
+                <small></small>
+            </label>
+            <div class="col-sm-4">
+
+            </div>
+            <label for="machineNo" class="col-sm-2 control-label no-padding-right" style="font-size:17px;width: 15%">
+                <small>机器编号</small>
+            </label>
+            <div class="col-sm-4" style="">
+                <input type="text" id="machineNo" name="machineNo" style="" class="form-control col-sm-12 onlyNum"
+                       placeholder="" maxlength="32" aisinoCheck="{required:false,minlength:1,maxlength:32}"
+                       onkeyup="value=value.replace(/[^\d]/g,'')" />
+            </div>
+        </div>
+    </form>
+</div>
+<!-- 新增、编辑、查看界面page 结束 -->
+<!--销方推送-->
+<div id="xz_sellerUpload" style='display: none'>
+    <div class="layui-tab layui-tab-card" lay-filter="test">
+        <ul class="layui-tab-title">
+            <li class="layui-this" lay-id="0">按开票日期查询</li>
+            <li lay-id="1">按发票代码号码查询</li>
+            <li lay-id="2">按发票号码段查询</li>
+        </ul>
+        <div class="layui-tab-content" style="height: 300px;">
+            <!--1-->
+            <div class="layui-tab-item layui-show">
+                <table border="0" align="center" cellspacing="2px;" cellpadding="0">
+                    <tr>
+                        <td>
+                            <!--<div class="form-group">-->
+                            <label class="col-md-12 col-sm-12 control-label no-padding-right">
+                                <small>开票日期</small>
+                            </label>
+                        </td>
+                        <td>
+                            <div class="col-md-12 col-sm-12 layui-input-inline">
+                                <!--<input type="text" id="bill_saletime" class="form-control col-sm-12"/>-->
+                                <input type=text id="invoiceTime"
+                                       class="bill_saletime col-sm-12 col-md-12 layui-input"
+                                       style="height: 34px" placeholder="请选择日期段"/>
+                            </div>
+                        </td>
+                        <!--</div>-->
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!--2-->
+            <div class="layui-tab-item">
+                <table border="0" align="center" cellspacing="2px;" cellpadding="0">
+                    <tr style="padding-top: 10px">
+                        <td>
+                            <label class="col-sm-12 control-label no-padding-right">
+                                <small>发票代码</small>
+                            </label>
+                        </td>
+                        <td>
+                            <div class="col-sm-12">
+                                <!--<input type="text" id="bill_saletime" class="form-control col-sm-12"/>-->
+                                <input type=text id="pushInvoiceCode"
+                                       class="col-sm-12 layui-input pushInvoiceCode"
+                                       style="height: 34px" placeholder="请输入发票代码（必填）"/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="padding-top: 10px">
+                        <td>
+                            <label class="col-sm-12 control-label no-padding-right">
+                                <small>发票号码</small>
+                            </label>
+                        </td>
+                        <td>
+                            <div class="col-sm-12">
+                                <!--<input type="text" id="bill_saletime" class="form-control col-sm-12"/>-->
+                                <input type=text id="pushInvoiceNumber"
+                                       class="col-sm-12 layui-input"
+                                       style="height: 34px" placeholder="请输入发票号码（必填）"/>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!--3-->
+            <div class="layui-tab-item">
+                <table border="0" align="center" cellspacing="2px;" cellpadding="0">
+                    <tr>
+                        <td>
+                            <label class="col-sm-12 control-label no-padding-right">
+                                <small>发票代码</small>
+                            </label>
+                        </td>
+                        <td>
+                            <div class="col-sm-12">
+                                <!--<input type="text" id="bill_saletime" class="form-control col-sm-12"/>-->
+                                <input type=text id="push_invoiceCode"
+                                       class="col-sm-12 layui-input pushInvoiceCode"
+                                       style="height: 34px" placeholder="请输入发票代码（必填）"/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="col-sm-12 control-label no-padding-right">
+                                <small>发票号码起</small>
+                            </label>
+                        </td>
+                        <td>
+                            <div class="col-sm-12">
+                                <!--<input type="text" id="bill_saletime" class="form-control col-sm-12"/>-->
+                                <input type=text id="invoiceNumberStrart"
+                                       class="col-sm-12 layui-input"
+                                       style="height: 34px" placeholder="请输入发票号码起（必填）"/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="col-sm-12 control-label no-padding-right">
+                                <small>发票号码止</small>
+                            </label>
+                        </td>
+                        <td>
+                            <div class="col-sm-12">
+                                <!--<input type="text" id="bill_saletime" class="form-control col-sm-12"/>-->
+                                <input type=text id="invoiceNumberEnd"
+                                       class="col-sm-12 layui-input"
+                                       style="height: 34px" placeholder="请输入发票号码止（必填）"/>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<script src="../../FrontFrame/jQuery/jquery.min.js"></script>-->
+<script src="../../FrontFrame/jQuery/jquery-1.11.1.min.js"></script>
+<!--[if IE 8]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='../../FrontFrame/jQuery/jquery-1.11.1.min.js'>" + "<" + "/script>");
+</script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+<script src="../../js/upload/jquery.placeholder.min.js"></script>
+<![endif]-->
+<!-- bootStrap&jqGrid&jQueryUi -->
+<script src="../../FrontFrame/jQuery/jquery-ui.js"></script>
+<script src="../../FrontFrame/Bootstrap/js/bootstrap.js"></script>
+<script src="../../FrontFrame/jQuery/jquery.jqGrid.src.js"></script>
+<script src="../../FrontFrame/jQuery/grid.locale-cn.js"></script>
+<!-- bootStrap&jqGrid -->
+<script src="../../FrontFrame/layui/layui.js"></script>
+<script src="../../FrontFrame/custom/js/custom.min.js"></script>
+
+<script src="../../js/cookie.min.js"></script>
+<script src="../../js/tools.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/check.js"></script>
+<script src="../../pages/swgl/js/billingPoint_manager.js"></script>
+
+<!-- Aisino表单校验 -->
+<script src="../../FrontFrame/formValidate/jquery.validate.js"></script>
+<script src = "../../FrontFrame/formValidate/jquery.metadata.js"></script>
+<script src="../../FrontFrame/formValidate/messages_cn.js"></script>
+<script src="../../FrontFrame/formValidate/aisino.check.js"></script>
+<!-- Aisino表单校验 -->
+<!--<script src="../../js/bmTree.js"></script>-->
+<!--<script src="../../FrontFrame/jQuery/jquery.ztree.all-3.5.js"></script>-->
+<script src="../../FrontFrame/jQuery/jstree.js"></script>
+<script src="../../FrontFrame/jQuery/jquery.placeholder.js"></script>
+<script src="../../js/commonInfo.js"></script>
+<script>
+
+</script>
+
+</body>
+</html>
